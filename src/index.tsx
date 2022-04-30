@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {installMockServer} from "./api/mock";
 
@@ -9,6 +8,8 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import {CssBaseline} from "@mui/material";
+import Router from "./components/Router";
 
 // Install local server for mocking API requests if necessary
 if (process.env.REACT_APP_API_MOCKING === "true" && process.env.NODE_ENV !== "production") {
@@ -21,7 +22,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-        <App/>
+        <CssBaseline/>
+        <Router/>
     </React.StrictMode>
 );
 
