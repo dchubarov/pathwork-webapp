@@ -1,9 +1,20 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
 import {Typography} from "@mui/material";
+import {ApplicationContext} from "../context";
 
 const Blog = () => {
+    const {configureView, ejectView} = useContext(ApplicationContext);
+
+    useEffect(() => {
+        configureView("Blog");
+
+        return () => {
+            ejectView();
+        }
+    }, [ejectView]);
+
     return (
-        <Typography variant="h4">Blog</Typography>
+        <Typography variant="h5">Top blog post...</Typography>
     );
 }
 
