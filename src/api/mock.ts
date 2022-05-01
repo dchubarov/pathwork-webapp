@@ -14,6 +14,8 @@ export function installMockServer(): Server {
         }
     });
 
-    console.log("Installed local server (MirageJS) for mocking API requests.");
+    console.log(`${new Date().toLocaleString()} Installed local server (MirageJS) for mocking API requests. ` +
+        "In order to switch to backend set REACT_APP_API_MOCKING to 'false'.");
+
     return server;
 }
