@@ -11,7 +11,7 @@ const Blog = () => {
         return () => {
             ejectView();
         }
-    }, [ejectView]);
+    }, [configureView, ejectView]);
 
     return (
         <Typography variant="h5">Top blog post...</Typography>
