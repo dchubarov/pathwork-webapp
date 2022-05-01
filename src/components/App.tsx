@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {forwardRef, useMemo, useState} from 'react';
 import {Link as RouterLink, LinkProps as RouterLinkProps, Outlet} from "react-router-dom";
 import {IApplicationContext, ApplicationContext} from "../context";
 import {
     AppBar,
     Container,
-    createTheme,
+    createTheme, CssBaseline,
     IconButton,
     ThemeProvider,
     Toolbar,
@@ -17,7 +17,7 @@ import {
     Menu as MenuIcon
 } from "@mui/icons-material";
 
-const LinkBehavior = React.forwardRef<any, Omit<RouterLinkProps, 'to'> & { href: RouterLinkProps['to'] }>(
+const LinkBehavior = forwardRef<any, Omit<RouterLinkProps, 'to'> & { href: RouterLinkProps['to'] }>(
     (props, ref) => {
         const {href, ...other} = props;
         // Map href (MUI) -> to (react-router)
@@ -42,7 +42,7 @@ const App = () => {
         }
     });
 
-    const theme = React.useMemo(() => createTheme({
+    const theme = useMemo(() => createTheme({
         palette: {
             mode: paletteMode,
         },
@@ -51,6 +51,7 @@ const App = () => {
             MuiButtonBase: {
                 defaultProps: {
                     LinkComponent: LinkBehavior,
+                    disableRipple: true,
                 }
             }
         }
@@ -59,6 +60,8 @@ const App = () => {
     return (
         <ApplicationContext.Provider value={appContext}>
             <ThemeProvider theme={theme}>
+                <CssBaseline/>
+
                 <AppBar position="static">
                     <Toolbar>
                         <IconButton href={process.env.REACT_APP_UI_ROOT || "/"} size="large" edge="start"
