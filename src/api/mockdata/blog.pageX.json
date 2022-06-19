@@ -1,0 +1,20 @@
+{
+  "pageSize": 3,
+  "pageNumber": 0,
+  "totalPages": 3,
+  "posts": [],
+  "availableTags": [
+    {
+      "name": "modeling",
+      "count": 3
+    },
+    {
+      "name": "surface",
+      "count": 5
+    },
+    {
+      "name": "shape",
+      "count": 1
+    }
+  ]
+}

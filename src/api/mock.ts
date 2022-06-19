@@ -6,9 +6,18 @@ export function installMockServer(): Server {
         namespace: process.env.REACT_APP_API_ROOT,
         routes() {
             // health check
-            this.get("/health", () => ({
-                status: "OK"
-            }));
+            this.get("/health",
+                () => ({status: "OK"}));
+
+            this.get("/blog/recent/",
+                (_, request) => {
+                    let p = parseInt(request.queryParams?.p);
+                    if (p === undefined) p = 1;
+                    return p >= 1 && p <= 3 ?
+                        require(`./mockdata/blog.page${p}.json`) :
+                        require("./mockdata/blog.pageX.json");
+                },
+                {timing: 500})
 
             this.logging = false;
         }

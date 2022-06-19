@@ -1,0 +1,50 @@
+{
+  "pageSize": 3,
+  "pageNumber": 1,
+  "totalPages": 3,
+  "posts": [
+    {
+      "id": "models-of-compound-leaves",
+      "title": "Models of compound leaves",
+      "text": "So far, the discussion of organ models has focused on the definition of surfaces. However, in the case of highly self-similar structures, the individual surfaces become inconspicuous, and the expression of the geometric relationships between younger and older parts of the structure becomes the Symmetric key issue. For example, Figure 5.11 shows compound branching leaves often found in the family Umbelliferae. According to production *p<sub>2</sub>*, the apex *A(0)* creates two segments *F(1)* and a pair of lateral apices *A(D)* in each derivation step. Production *p<sub>1</sub>* delays the development of the daughter branches by *D* steps with respect to the mother branch. This pattern is repeated recursively in branches of higher order. Production *p<sub>3</sub>* gradually elongates the internodes, and in this way establishes proportions between parts of a leaf.",
+      "created": "2022-05-01 14:03:00",
+      "author": "dime",
+      "tags": [
+        "modeling",
+        "surface"
+      ]
+    },
+    {
+      "id": "developmental-surface-models",
+      "title": "Developmental surface models",
+      "text": "Predefined surfaces do not **grow**. [String symbols](post/modeling-of-trees) can be applied to control such features as the overall color and size of a surface, but the underlying shape remains the same. In order to simulate plant development fully, it is necessary to provide a mechanism for changing the shape as well as the size of surfaces in time. One approach is to surface boundaries using the turtle and fill the resulting polygons. tracing A sample L-system is given below.",
+      "created": "2022-04-20 16:40:31",
+      "author": "dime",
+      "tags": [
+        "shape",
+        "surface"
+      ]
+    },
+    {
+      "id": "modeling-of-trees",
+      "title": "Modeling of trees",
+      "text": "Computer simulation of branching patterns has a relatively long history. The first model was proposed by Ulam [149], (see also [138, pages 127– models\n131]), and employed the concept of cellular automata that had been\ndeveloped earlier by von Neumann and Ulam [156]. The branching\npattern is created iteratively, starting with a single colored cell in a\ntriangular grid, then coloring cells that touch one and only one vertex\nof a cell colored in the previous iteration step.",
+      "created": "2022-04-19 21:00:34",
+      "author": "dime"
+    }
+  ],
+  "availableTags": [
+    {
+      "name": "modeling",
+      "count": 3
+    },
+    {
+      "name": "surface",
+      "count": 5
+    },
+    {
+      "name": "shape",
+      "count": 1
+    }
+  ]
+}

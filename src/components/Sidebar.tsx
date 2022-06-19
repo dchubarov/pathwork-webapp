@@ -29,9 +29,9 @@ const Sidebar = (props: SidebarProps) => {
             {Array.from(props.children.keys()).sort().map((key, index) => {
                 const child = props.children?.get(key);
                 return child ? (
-                    <Box sx={{p: 1}}>
+                    <Box key={`child-${index + 1}`} sx={{p: 1}}>
                         {props.showCaptions === true && child.caption &&
-                            <Typography variant="caption">{child.caption}</Typography>
+                            <Typography variant="caption" sx={{textTransform: "uppercase"}}>{child.caption}</Typography>
                         }
 
                         {child.component}

@@ -1,0 +1,38 @@
+{
+  "pageSize": 3,
+  "pageNumber": 3,
+  "totalPages": 3,
+  "posts": [
+    {
+      "id": "the-cylindrical-model",
+      "title": "The cylindrical model",
+      "text": "The spiral patterns evident in elongated organs such as pine cones, Basic model\nfir cones and pineapples, can be described by models that position\ncomponents, in this case scales, on the surface of a cylinder. Van Iterson\n[75] divides phyllotactic patterns on cylinders into simple and conjugate\nones. In the case of a simple arrangement, all components lie on a single\n_generative helix_. In contrast, conjugate patterns consist of two or more\ninterleaved helices.",
+      "created": "2022-03-20 09:50:20",
+      "author": "dime",
+      "tags": [
+        "modeling"
+      ]
+    },
+    {
+      "id": "analysis-of-model-geometry",
+      "title": "Analysis of model geometry",
+      "text": "The phyllotactic pattern can be explained in terms of circles packed\non the surface of the cylinder. An evident parastichy consists of a\nsequence of tangent circles, the ordering numbers of which form an\narithmetic sequence with difference m.\n\n>Written by Charlie Henzog before he dead eating a hamburger",
+      "created": "2022-03-15 14:14:31",
+      "author": "dime"
+    }
+  ],
+  "availableTags": [
+    {
+      "name": "modeling",
+      "count": 3
+    },
+    {
+      "name": "surface",
+      "count": 5
+    },
+    {
+      "name": "shape",
+      "count": 1
+    }
+  ]
+}

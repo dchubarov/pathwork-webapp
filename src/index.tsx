@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
 import reportWebVitals from './reportWebVitals';
-import {installMockServer} from "./api/mock";
-import Router from "./components/Router";
+import {installMockServer} from "@api/mock";
+import Router from "@containers/Router";
 
 // Roboto font
 import '@fontsource/roboto/300.css';
