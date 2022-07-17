@@ -1,0 +1,51 @@
+{
+  "language": {
+    "label": "рус"
+  },
+  "pages": {
+    "blog": "Блог",
+    "records": "Картотека"
+  },
+  "navigator": {
+    "page": "Страница {{page}} из {{total}}"
+  },
+  "time": {
+    "full.now": "сейчас",
+    "full.minutes_one": "минуту назад",
+    "full.minutes_few": "{{count}} минуты назад",
+    "full.minutes_other": "{{count}} минут назад",
+    "full.hours_one": "час назад",
+    "full.hours_few": "{{count}} часа назад",
+    "full.hours_other": "{{count}} часов назад",
+    "full.days_one": "день назад",
+    "full.days_few": "{{count}} дня назад",
+    "full.days_other": "{{count}} дней назад",
+    "full.weeks_one": "неделю назад",
+    "full.weeks_few": "{{count}} недели назад",
+    "full.weeks_other": "{{count}} недель назад",
+    "full.months_one": "месяц назад",
+    "full.months_few": "{{count}} месяца назад",
+    "full.months_other": "{{count}} месяцев назад",
+    "full.years_one": "год назад",
+    "full.years_few": "{{count}} года назад",
+    "full.years_other": "{{count}} лет назад",
+    "short.now": "сейчас",
+    "short.minutes_one": "1 мин.",
+    "short.minutes_few": "{{count}} мин.",
+    "short.minutes_other": "{{count}} мин.",
+    "short.hours_one": "1ч",
+    "short.hours_other": "{{count}}ч",
+    "short.days_one": "1д",
+    "short.days_few": "{{count}}д",
+    "short.days_other": "{{count}}д",
+    "short.weeks_one": "1 нед.",
+    "short.weeks_few": "{{count}} нед.",
+    "short.weeks_other": "{{count}} нед.",
+    "short.months_one": "1 мес.",
+    "short.months_few": "{{count}} мес.",
+    "short.months_other": "{{count}} мес.",
+    "short.years_one": "1 год",
+    "short.years_few": "{{count} года",
+    "short.years_other": "{{count}} лет"
+  }
+}

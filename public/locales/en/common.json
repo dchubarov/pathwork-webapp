@@ -1,0 +1,43 @@
+{
+  "language": {
+    "label": "eng"
+  },
+
+  "pages": {
+    "dashboard": "Dashboard",
+    "blog": "Blog",
+    "records": "Records"
+  },
+
+  "navigator": {
+    "page": "Page {{page}} of {{total}}"
+  },
+
+  "time": {
+    "full.now": "just now",
+    "full.minutes_one": "a minute ago",
+    "full.minutes_other": "{{count}} minutes ago",
+    "full.hours_one": "a hour ago",
+    "full.hours_other": "{{count}} hours ago",
+    "full.days_one": "a day ago",
+    "full.days_other": "{{count}} days ago",
+    "full.weeks_one": "a week ago",
+    "full.weeks_other": "{{count}} weeks ago",
+    "full.months_one": "a month ago",
+    "full.months_other": "{{count}} months ago",
+    "full.years_one": "a year ago",
+    "full.years_other": "{{count}} years ago",
+    "short.now": "just now",
+    "short.minutes_one": "1m",
+    "short.minutes_other": "{{count}}m",
+    "short.hours_one": "1h",
+    "short.hours_other": "{{count}}h",
+    "short.days_one": "1d",
+    "short.days_other": "{{count}}d",
+    "short.weeks_one": "1w",
+    "short.weeks_other": "{{count}}w",
+    "short.months_one": "1mo",
+    "short.months_other": "{{count}}mo",
+    "short.years_other": "{{count}}y"
+  }
+}

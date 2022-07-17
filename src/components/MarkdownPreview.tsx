@@ -11,7 +11,7 @@ const MarkdownPreview = ({content}: { content: string }) => {
                        remarkPlugins={[remarkGfm]}
                        components={{
                            a: ({node, ...props}) => <Link component={LinkBehavior} {...props}/>,
-                           p: ({node, ...props}) => <Typography variant="body1" {...props}/>,
+                           p: ({node, ...props}) => <Typography variant="inherit" {...props}/>,
                            h1: ({node, ...props}) => <Typography variant="h5" {...props}/>,
                        }}/>
     );

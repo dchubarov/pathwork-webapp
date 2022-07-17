@@ -17,7 +17,15 @@ export function installMockServer(): Server {
                         require(`./mockdata/blog.page${p}.json`) :
                         require("./mockdata/blog.pageX.json");
                 },
-                {timing: 500})
+                {timing: 500});
+
+            this.get("/records/cards",
+                (_, request) => {
+                    let p = parseInt(request.queryParams?.p) || 1;
+                    return p === 1 ?
+                        require(`./mockdata/records.page${p}.json`) :
+                        require("./mockdata/records.pageX.json");
+                }, {timing: 500});
 
             this.logging = false;
         }

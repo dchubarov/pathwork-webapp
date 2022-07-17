@@ -1,0 +1,19 @@
+{
+  "name": "reminder",
+  "fields": {
+    "prompt": {
+      "label": "Type what to do",
+      "layout": "caption"
+    },
+    "due": {
+      "datatype": "date",
+      "label": "Due date",
+      "layout": "footer-left"
+    },
+    "done": {
+      "datatype": "flag",
+      "label": "Done",
+      "layout": "footer-right"
+    }
+  }
+}

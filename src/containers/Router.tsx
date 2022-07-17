@@ -4,6 +4,7 @@ import App from "./App";
 import NotFound from "./NotFound";
 import Dashboard from "./Dashboard";
 import * as Blog from "@feature/Blog";
+import * as Records from "@feature/Records";
 
 const Router = () => {
     return (
@@ -15,6 +16,10 @@ const Router = () => {
                     <Route path="/blog">
                         <Route index element={<Blog.Feed/>}/>
                         <Route path="post/:slug" element={<Blog.Post/>}/>
+                    </Route>
+
+                    <Route path="/records">
+                        <Route index element={<Records.Browser/>}/>
                     </Route>
 
                     <Route path="*" element={<NotFound/>}/>

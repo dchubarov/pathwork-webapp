@@ -5,6 +5,9 @@ import reportWebVitals from './reportWebVitals';
 import {installMockServer} from "@api/mock";
 import Router from "@containers/Router";
 
+// internationalization support
+import "@utils/i18n";
+
 // Roboto font
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -22,7 +25,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-        <Router/>
+        <React.Suspense fallback="Application is loading...">
+            <Router/>
+        </React.Suspense>
     </React.StrictMode>
 );
 

@@ -1,0 +1,22 @@
+{
+  "options": {
+    "view": {
+      "hint": "View mode",
+      "masonry": "Masonry",
+      "grid": "Grid",
+      "list": "List"
+    },
+    "size": {
+      "hint": "Card size",
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large"
+    },
+    "sort": {
+      "hint": "Sort by",
+      "updated": "Date modified",
+      "created": "Date created",
+      "reverse": "Reverse sort"
+    }
+  }
+}

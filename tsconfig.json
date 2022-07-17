@@ -23,11 +23,11 @@
     "paths": {
       "@api/*": ["src/api/*"],
       "@components/*": ["src/components/*"],
-      "@context": ["src/context/index"],
       "@context/*": ["src/context/*"],
       "@containers/*": ["src/containers/*"],
       "@feature/*": ["src/containers/*"],
       "@model/*": ["src/model/*"],
+      "@i18n": ["src/i18n/index"],
       "@utils/*": ["src/utils/*"],
     }
   },

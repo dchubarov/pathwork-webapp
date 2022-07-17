@@ -1,7 +1,7 @@
 import React from "react";
 import {alpha, InputBase, styled} from "@mui/material";
 import {Search as SearchIcon} from "@mui/icons-material";
-import {SearchHandler} from "@context";
+import {SearchHandler} from "@utils/context";
 
 const SearchContainer = styled("div")(({theme}) => ({
     position: "relative",

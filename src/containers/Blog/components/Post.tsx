@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {Typography} from "@mui/material";
-import {ApplicationContext} from "@context";
+import {ApplicationContext} from "@utils/context";
 import PostActions from "@feature/Blog/components/PostActions";
 
 const Post: React.FC = () => {

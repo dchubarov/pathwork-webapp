@@ -1,0 +1,178 @@
+{
+  "page": 1,
+  "total": 1,
+  "cards": [
+    {
+      "record": {
+        "id": 100500,
+        "created": {
+          "timestamp": "2022-06-27T17:40:30",
+          "user": "dime"
+        },
+        "template": {
+          "name": "Reminder"
+        },
+        "tint": "#ffca28",
+        "tags": []
+      },
+      "layout": [
+        {
+          "element": "detail",
+          "field": {
+            "name": "prompt",
+            "template": {
+              "label": "Type what to do"
+            },
+            "value": {
+              "single": "Buy groceries"
+            }
+          }
+        },
+        {
+          "element": "footer-left",
+          "field": {
+            "name": "due",
+            "template": {
+              "datatype": "date",
+              "label": "Due date"
+            },
+            "value": {
+              "single": "2022-07-10"
+            }
+          }
+        },
+        {
+          "element": "footer-right",
+          "field": {
+            "name": "done",
+            "template": {
+              "datatype": "flag",
+              "label": "Done"
+            },
+            "value": {
+              "single": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "record": {
+        "id": 90541,
+        "created": {
+          "user": "dime",
+          "timestamp": "2022-05-29"
+        },
+        "template": {
+          "name": "Note"
+        },
+        "tags": [
+          "computers",
+          "acronym"
+        ]
+      },
+      "layout": [
+        {
+          "element": "caption",
+          "field": {
+            "name": "title",
+            "value": {
+              "single": "ACID"
+            }
+          }
+        },
+        {
+          "element": "detail",
+          "field": {
+            "name": "text",
+            "value": {
+              "single": "ACID (transaction) stands for Atomicity, Consistency (or Correctness, see also eventually consistent), Isolation, and Durability"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "record": {
+        "id": "la9c6f",
+        "created": {
+          "user": "dime",
+          "timestamp": "2022-04-13"
+        },
+        "template": {
+          "name": "Receipt"
+        },
+        "tags": [],
+        "tint": "#66bb6a"
+      },
+      "layout": [
+        {
+          "element": "caption",
+          "field": {
+            "name": "goods",
+            "value": {
+              "single": "Apple iPhone"
+            }
+          }
+        },
+        {
+          "element": "detail",
+          "field": {
+            "name": "goods.desc",
+            "value": {
+              "single": "13 Pro Graphite 128G"
+            }
+          }
+        },
+        {
+          "element": "footer-right",
+          "field": {
+            "name": "price",
+            "template": {
+              "label": "Price"
+            },
+            "value": {
+              "single": "$800"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "record": {
+        "id": 90920,
+        "created": {
+          "user": "dime",
+          "timestamp": "2022-05-29"
+        },
+        "template": {
+          "name": "Note"
+        },
+        "tags": [
+          "acronym",
+          "business"
+        ]
+      },
+      "layout": [
+        {
+          "element": "caption",
+          "field": {
+            "name": "title",
+            "value": {
+              "single": "SWOT"
+            }
+          }
+        },
+        {
+          "element": "detail",
+          "field": {
+            "name": "text",
+            "value": {
+              "single": "SWOT stands for Strengths, Weaknesses, Opportunities, and Threats, and so a SWOT analysis is a technique for assessing these four aspects of your business. SWOT Analysis is a tool that can help you to analyze what your company does best now, and to devise a successful strategy for the future."
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

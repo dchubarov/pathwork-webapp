@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useReducer, useState} from "react";
 import {useSearchParams} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 import {Box, Button, Link, Slide, Stack, Typography} from "@mui/material";
 import {ChatBubbleOutline as CommentsIcon, Warning as WarningIcon} from "@mui/icons-material";
 import axios from "axios";
 
 import {BlogPageDto} from "@model/blog";
-import {ApplicationContext} from "@context";
-import {formatDateTime} from "@utils/datetime";
+import {ApplicationContext} from "@utils/context";
+import {relativeTimeT} from "@utils/datetime";
 import FeedActions from "./FeedActions";
 import SkeletalContent from "@components/SkeletalContent";
 import MarkdownPreview from "@components/MarkdownPreview";
@@ -14,23 +15,28 @@ import SharingStatus from "@components/SharingStatus";
 import TagArray from "@components/TagArray";
 import OnScreen from "@components/OnScreen";
 import LinkBehavior from "@components/LinkBehavior";
+import Navigator from "@components/Navigator";
 
 import {FeedState, queryToSearchParams} from "../reducers/feed";
+import FeedQueryStatus from "./FeedQueryStatus";
 import TagListSidecar from "./TagListSidecar";
-import FeedNavigator from "./FeedNavigator";
 
 const Feed: React.FC = () => {
     const {configureView, configureSidebar, ejectView} = useContext(ApplicationContext);
     const [state, dispatch] = useReducer(FeedState.reducer, FeedState.initial);
     const [scrolledDown, setScrolledDown] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
+    const {t} = useTranslation();
 
     const handleSetPage = (page: number) => setSearchParams({...queryToSearchParams(state.query), p: page});
 
     useEffect(() => {
-        configureView("Blog", search => setSearchParams({s: search}));
         return () => ejectView();
-    }, [configureView, configureSidebar, ejectView, setSearchParams]);
+    }, [ejectView]);
+
+    useEffect(() => {
+        configureView(t("pages.blog"), search => setSearchParams({s: search}));
+    }, [configureView, setSearchParams, t]);
 
     useEffect(() => {
         dispatch({type: "apply-search-params", searchParams: searchParams});
@@ -53,23 +59,6 @@ const Feed: React.FC = () => {
         }
     }, [state, configureSidebar]);
 
-    let status;
-    if ("tags" in state.query) {
-        const len = state.query.tags.length;
-        status = (
-            <>
-                Showing posts with tag{len > 1 ? "s" : ""}
-                {state.query.tags.map((t, i) => (
-                    <React.Fragment key={`item-${i + 1}`}>
-                        "<b>{t}</b>"{i < len - 1 ? ", " : ""}
-                    </React.Fragment>))}
-            </>);
-    } else if ("search" in state.query) {
-        status = <>Showing posts containing "<b>{state.query.search}</b>"</>;
-    } else {
-        status = "Showing blog posts chronologically";
-    }
-
     return (
         <React.Fragment>
             {state.mode === "reload" && <SkeletalContent count={3} lines={6}/>}
@@ -79,15 +68,16 @@ const Feed: React.FC = () => {
                     <OnScreen onVisibilityChanged={visible => setScrolledDown(!visible)}
                               sx={{position: "relative", top: -20}}/>
 
-                    <FeedNavigator pageNumber={state.data.pageNumber}
-                                   totalPages={state.data.totalPages}
-                                   status={status}
-                                   onPageChange={handleSetPage}/>
+                    <Navigator page={state.data.pageNumber}
+                               total={state.data.totalPages}
+                               onPageChange={handleSetPage}>
+                        <FeedQueryStatus query={state.query}/>
+                    </Navigator>
 
                     {state.data.posts && state.data.posts.length > 0 && <Stack mt={2} mb={1} spacing={2}>
                         {state.data.posts.map((post, index) =>
                             <Box key={`post-${index + 1}`}>
-                                <SharingStatus user={post.author} info={`on ${formatDateTime(post.created)}`}/>
+                                <SharingStatus user={post.author} info={relativeTimeT(post.created)}/>
                                 <Link component={LinkBehavior} variant="h5" href={`post/${post.id}`} underline="none"
                                       color="inherit">{post.title}</Link>
                                 <TagArray tags={post.tags}/>
@@ -101,11 +91,14 @@ const Feed: React.FC = () => {
                     </Stack>}
 
                     <Slide in={scrolledDown} direction="up" mountOnEnter unmountOnExit>
-                        <FeedNavigator mode="sticky"
-                                       pageNumber={state.data.pageNumber}
-                                       totalPages={state.data.totalPages}
-                                       status={status}
-                                       onPageChange={handleSetPage}/>
+                        <Navigator page={state.data.pageNumber}
+                                   total={state.data.totalPages}
+                                   onPageChange={handleSetPage}
+                                   scrollToTopButton
+                                   position="bottom"
+                                   sticky>
+                            <FeedQueryStatus query={state.query}/>
+                        </Navigator>
                     </Slide>
                 </Box>}
 
