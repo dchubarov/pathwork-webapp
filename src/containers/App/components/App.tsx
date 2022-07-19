@@ -90,9 +90,11 @@ const App: React.FC = () => {
             setSection(undefined);
         },
 
-        updatePreferences: (init, prefs) => {
-            const [preferences, changed] = mergePreferences(init, prefs);
-            if (changed) setContext(prev => ({...prev, preferences: preferences}));
+        updatePreferences: (init) => {
+            setContext(prev => {
+                const [preferences, changed] = mergePreferences(init, prev.preferences);
+                return changed ? {...prev, preferences} : prev;
+            });
         }
     });
 

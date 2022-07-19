@@ -33,7 +33,7 @@ export function usePreference<T>(key: string): [any, PreferenceUpdateFunc<T>] {
                 init[path] = v;
             }
         });
-        updatePreferences(initRoot, preferences);
+        updatePreferences(initRoot);
     };
 
     return [findPreferenceValue(key, preferences), update];

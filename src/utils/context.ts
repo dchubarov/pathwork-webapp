@@ -18,7 +18,7 @@ export interface IApplicationContext {
     configureView: (section: string, searcher?: SearchHandler) => void;
     configureSidebar: (component: JSX.Element, slot?: number, caption?: string) => void;
     ejectView: () => void;
-    updatePreferences: (init: any, prefs: any) => void;
+    updatePreferences: (init: any) => void;
 }
 
 export const ApplicationContext = React.createContext<IApplicationContext>({
