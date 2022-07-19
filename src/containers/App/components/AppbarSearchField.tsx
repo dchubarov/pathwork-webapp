@@ -51,7 +51,7 @@ export interface SearchFieldProps {
     placeholder?: string;
 }
 
-const SearchField = ({placeholder, onSearch}: SearchFieldProps) => {
+const AppbarSearchField = ({placeholder, onSearch}: SearchFieldProps) => {
     return (
         <SearchContainer>
             <SearchIconWrapper>
@@ -73,4 +73,4 @@ const SearchField = ({placeholder, onSearch}: SearchFieldProps) => {
     )
 }
 
-export default SearchField;
+export default AppbarSearchField;

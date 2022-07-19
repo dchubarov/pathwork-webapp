@@ -1,6 +1,6 @@
 import {Avatar, styled} from "@mui/material";
 
-const Logo = styled(Avatar)(({theme}) => ({
+const AppbarLogo = styled(Avatar)(({theme}) => ({
     transition: theme.transitions.create("opacity"),
     opacity: 0.85,
     "&:hover": {
@@ -8,4 +8,4 @@ const Logo = styled(Avatar)(({theme}) => ({
     },
 }));
 
-export default Logo;
+export default AppbarLogo;

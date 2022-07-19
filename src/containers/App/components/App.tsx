@@ -17,10 +17,10 @@ import {
 import {ApplicationContext, IApplicationContext, SearchHandler} from "@utils/context";
 import {initPreferences, mergePreferences, PreferenceInit} from "@utils/prefs";
 import getDesignTokens from "@utils/theme";
-import Sidebar, {SidebarChild} from "@components/Sidebar";
+import Sidebar, {SidebarChild} from "./Sidebar";
 import LinkBehavior from "@components/LinkBehavior";
-import SearchField from "@components/SearchField";
-import Logo from "./Logo";
+import AppbarSearchField from "./AppbarSearchField";
+import AppbarLogo from "./AppbarLogo";
 import AppbarLanguageButton from "./AppbarLanguageButton";
 import AppbarThemeButton from "./AppbarThemeButton";
 import AppbarDebugButton from "./AppbarDebugButton";
@@ -93,7 +93,7 @@ const App: React.FC = () => {
                     <AppBar position="fixed" sx={{zIndex: theme => theme.zIndex.drawer + 1}}>
                         <Toolbar>
                             <Link component={LinkBehavior} href={process.env.REACT_APP_UI_ROOT || "/"}>
-                                <Logo variant="rounded" src="/logo128.png" alt="logo"/>
+                                <AppbarLogo variant="rounded" src="/logo128.png" alt="logo"/>
                             </Link>
 
                             <Typography variant="h5" component="div" sx={{flexGrow: 1, ml: 2}}>
@@ -101,7 +101,7 @@ const App: React.FC = () => {
                             </Typography>
 
                             {searchHandler &&
-                                <SearchField onSearch={searchHandler} placeholder={`Search ${section}...`}/>}
+                                <AppbarSearchField onSearch={searchHandler} placeholder={`Search ${section}...`}/>}
 
                             <AppbarLanguageButton i18n={i18n}/>
 
