@@ -1,5 +1,6 @@
 import {createServer} from "miragejs";
 import {Server} from "miragejs/server";
+import * as uuid from "uuid";
 
 export function installMockServer(): Server {
     const server = createServer({
@@ -8,6 +9,17 @@ export function installMockServer(): Server {
             // health check
             this.get("/health",
                 () => ({status: "OK"}));
+
+            this.get("/auth/login", (_, request) => {
+                return {
+                    user: request.queryParams?.u,
+                    session: uuid.v4(),
+                }
+            }, {timing: 800});
+
+            this.get("/auth/logout", () => {
+                return {};
+            }, {timing: 200});
 
             this.get("/blog/recent/",
                 (_, request) => {

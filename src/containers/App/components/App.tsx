@@ -14,7 +14,7 @@ import {
     useMediaQuery
 } from "@mui/material";
 
-import {ApplicationContext, IApplicationContext, SearchHandler} from "@utils/context";
+import {ApplicationContext, IApplicationContext, LoggedOut, SearchHandler} from "@utils/context";
 import {initPreferences, mergePreferences, PreferenceInit} from "@utils/prefs";
 import getDesignTokens from "@utils/theme";
 import Sidebar, {SidebarChild} from "./Sidebar";
@@ -24,6 +24,8 @@ import AppbarLogo from "./AppbarLogo";
 import AppbarLanguageButton from "./AppbarLanguageButton";
 import AppbarThemeButton from "./AppbarThemeButton";
 import AppbarDebugButton from "./AppbarDebugButton";
+import AppbarLoginButton from "./AppbarLoginButton";
+import axios from "axios";
 
 const developerPrefsInit: any = process.env.NODE_ENV !== "development" ? {} : {
     enableDebugFeatures: () => false,
@@ -34,9 +36,10 @@ const App: React.FC = () => {
     const [sidebarChildren, setSidebarChildren] = useState(new Map<number, SidebarChild>());
     const [searchHandler, setSearchHandler] = useState<SearchHandler | undefined>();
     const [section, setSection] = useState<string | undefined>();
-    const {t, i18n} = useTranslation();
+    const {i18n} = useTranslation();
 
     const [context, setContext] = useState<IApplicationContext>({
+        auth: LoggedOut,
         preferences: initPreferences({
             language: new PreferenceInit(i18n.language),
             theme: new PreferenceInit<PaletteMode>(prefersDarkMode ? "dark" : "light"),
@@ -52,6 +55,24 @@ const App: React.FC = () => {
             },
             developer: developerPrefsInit
         }),
+
+        login: (user, password) => {
+            axios.get<any>(`${process.env.REACT_APP_API_ROOT}/auth/login?u=${user}&p=${password}`)
+                .then(response => {
+                    setContext(prev => ({
+                        ...prev, auth: {
+                            isLoggedIn: true,
+                            user: response.data.user,
+                            session: response.data.session,
+                        }
+                    }));
+                })
+        },
+
+        logout: () => {
+            axios.get(`${process.env.REACT_APP_API_ROOT}/auth/logout`)
+                .then(() => setContext(prev => ({...prev, auth: LoggedOut})));
+        },
 
         configureSidebar: (component, slot, caption) => {
             setSidebarChildren(new Map(sidebarChildren.set(slot || 0, {component: component, caption: caption})));
@@ -71,7 +92,7 @@ const App: React.FC = () => {
 
         updatePreferences: (init, prefs) => {
             const [preferences, changed] = mergePreferences(init, prefs);
-            if (changed) setContext(prev => ({...prev, preferences}));
+            if (changed) setContext(prev => ({...prev, preferences: preferences}));
         }
     });
 
@@ -108,6 +129,8 @@ const App: React.FC = () => {
                             <AppbarThemeButton/>
 
                             {process.env.NODE_ENV === "development" && <AppbarDebugButton/>}
+
+                            <AppbarLoginButton/>
                         </Toolbar>
                     </AppBar>
 

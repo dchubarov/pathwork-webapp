@@ -30,7 +30,7 @@
       "title": "Modeling of trees",
       "text": "Computer simulation of branching patterns has a relatively long history. The first model was proposed by Ulam [149], (see also [138, pages 127– models\n131]), and employed the concept of cellular automata that had been\ndeveloped earlier by von Neumann and Ulam [156]. The branching\npattern is created iteratively, starting with a single colored cell in a\ntriangular grid, then coloring cells that touch one and only one vertex\nof a cell colored in the previous iteration step.",
       "created": "2022-04-19 21:00:34",
-      "author": "dime"
+      "author": "monk"
     }
   ],
   "availableTags": [

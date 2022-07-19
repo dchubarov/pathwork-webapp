@@ -1,28 +1,26 @@
 import React from "react";
 import {Avatar} from "@mui/material";
-import {Person as UserIcon} from "@mui/icons-material";
 
 const largeAvatar = 32;
 const smallAvatar = 24;
 
-interface StaffAvatarProps {
+interface Props {
     name: string;
-    kind: "user" | "team";
+    kind?: "user" | "team";
     size?: "small" | "large";
     placeholder?: boolean;
 }
 
-const StaffAvatar = ({name, kind, size = "small"}: StaffAvatarProps) => {
+const StaffAvatar: React.FC<Props> = ({name, kind = "user", size = "small"}) => {
     return (
-        <Avatar alt={name}
+        <Avatar src={`${process.env.REACT_APP_UPLOADS_ROOT}/avatar/${kind}/${name}.png`}
                 variant={kind === "team" ? "rounded" : "circular"}
+                alt={name}
                 sx={{
                     height: size === "small" ? smallAvatar : largeAvatar,
                     width: size === "small" ? smallAvatar : largeAvatar,
                     fontSize: size === "small" ? "small" : "inherit",
-                }}>
-            {kind === "user" ? <UserIcon fontSize="inherit"/> : name}
-        </Avatar>
+                }}/>
     );
 }
 

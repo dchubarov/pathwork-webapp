@@ -1,0 +1,1 @@
+Uploads folder is normally maintained by backend with actual uploads.
