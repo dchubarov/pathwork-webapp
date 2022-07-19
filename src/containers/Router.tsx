@@ -1,6 +1,6 @@
 import React from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import App from "./App";
+import {App} from "./App";
 import NotFound from "./NotFound";
 import Dashboard from "./Dashboard";
 import * as Blog from "@feature/Blog";

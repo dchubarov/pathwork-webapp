@@ -1,107 +1,40 @@
 import React, {useEffect, useMemo, useState} from 'react';
+import {useTranslation} from "react-i18next";
 import {Outlet} from "react-router-dom";
 import {
     AppBar,
-    Avatar,
-    Badge,
     Box,
     createTheme,
     CssBaseline,
-    IconButton,
     Link,
     PaletteMode,
-    styled,
     ThemeProvider,
     Toolbar,
-    Tooltip,
     Typography,
     useMediaQuery
 } from "@mui/material";
+
 import {ApplicationContext, IApplicationContext, SearchHandler} from "@utils/context";
+import {initPreferences, mergePreferences, PreferenceInit} from "@utils/prefs";
+import getDesignTokens from "@utils/theme";
 import Sidebar, {SidebarChild} from "@components/Sidebar";
 import LinkBehavior from "@components/LinkBehavior";
 import SearchField from "@components/SearchField";
-import getDesignTokens from "@utils/theme";
-import {initPreferences, mergePreferences, PreferenceInit, usePreference} from "@utils/prefs";
-
-// Icons
-import {
-    Brightness4 as DarkThemeIcon,
-    Brightness7 as LightThemeIcon,
-    Language as LanguageIcon,
-    PestControl as DebugOnIcon,
-    PestControlOutlined as DebugOffIcon
-} from "@mui/icons-material";
-import {useTranslation} from "react-i18next";
-import {i18n} from "i18next";
-
-const AppLogo = styled(Avatar)(({theme}) => ({
-    transition: theme.transitions.create("opacity"),
-    opacity: 0.85,
-    "&:hover": {
-        opacity: 1,
-    },
-}));
-
-const AppBarLanguageButton: React.FC<{ i18n: i18n, mode?: "cycle" | "menu" | "auto" }> = ({i18n, mode = "auto"}) => {
-    const [preferredLanguage, setPreferredLanguage] = usePreference("language");
-    const availableLanguageCount = i18n.languages.length;
-
-    const handleClick = () => {
-        if (mode === "cycle" || (mode === "auto" && availableLanguageCount < 3)) {
-            const i = i18n.languages.findIndex(l => preferredLanguage === l);
-            if (i !== -1) {
-                const nextLanguage = i18n.languages[i < i18n.languages.length - 1 ? i + 1 : 0];
-                setPreferredLanguage(nextLanguage);
-            }
-        } else {
-            // TODO show language menu
-        }
-    }
-
-    return (
-        <IconButton color="inherit" onClick={handleClick} disabled={availableLanguageCount < 2}>
-            <Badge badgeContent={i18n.t("language.label").toString().toLowerCase()}
-                   anchorOrigin={{horizontal: "right", vertical: "bottom"}}
-                   color="success">
-                <LanguageIcon/>
-            </Badge>
-        </IconButton>
-    );
-}
-
-const AppBarThemeButton = () => {
-    const [theme, setTheme] = usePreference<PaletteMode>("theme");
-    return (
-        <Tooltip title={theme === 'light' ? "Lights off" : "Lights on"}>
-            <IconButton onClick={() => setTheme(theme === "light" ? "dark" : "light")} color="inherit" sx={{ml: 1}}>
-                {theme === "light" ? <LightThemeIcon/> : <DarkThemeIcon/>}
-            </IconButton>
-        </Tooltip>
-    );
-}
-
-const AppBarDebugButton = () => {
-    const [enableDebugFeatures, setEnableDebugFeatures] = usePreference("developer.enableDebugFeatures");
-    return (
-        <Tooltip title={`${enableDebugFeatures ? "Disable" : "Enable"} debug features`}>
-            <IconButton color="inherit" onClick={() => setEnableDebugFeatures(!enableDebugFeatures)}>
-                {enableDebugFeatures ? <DebugOnIcon/> : <DebugOffIcon/>}
-            </IconButton>
-        </Tooltip>
-    );
-}
+import Logo from "./Logo";
+import AppbarLanguageButton from "./AppbarLanguageButton";
+import AppbarThemeButton from "./AppbarThemeButton";
+import AppbarDebugButton from "./AppbarDebugButton";
 
 const developerPrefsInit: any = process.env.NODE_ENV !== "development" ? {} : {
     enableDebugFeatures: () => false,
 };
 
-const App = () => {
+const App: React.FC = () => {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const [sidebarChildren, setSidebarChildren] = useState(new Map<number, SidebarChild>());
     const [searchHandler, setSearchHandler] = useState<SearchHandler | undefined>();
     const [section, setSection] = useState<string | undefined>();
-    const {t, i18n} = useTranslation("common");
+    const {t, i18n} = useTranslation();
 
     const [context, setContext] = useState<IApplicationContext>({
         preferences: initPreferences({
@@ -160,7 +93,7 @@ const App = () => {
                     <AppBar position="fixed" sx={{zIndex: theme => theme.zIndex.drawer + 1}}>
                         <Toolbar>
                             <Link component={LinkBehavior} href={process.env.REACT_APP_UI_ROOT || "/"}>
-                                <AppLogo variant="rounded" src="/logo128.png" alt="logo"/>
+                                <Logo variant="rounded" src="/logo128.png" alt="logo"/>
                             </Link>
 
                             <Typography variant="h5" component="div" sx={{flexGrow: 1, ml: 2}}>
@@ -170,11 +103,11 @@ const App = () => {
                             {searchHandler &&
                                 <SearchField onSearch={searchHandler} placeholder={`Search ${section}...`}/>}
 
-                            <AppBarLanguageButton i18n={i18n}/>
+                            <AppbarLanguageButton i18n={i18n}/>
 
-                            <AppBarThemeButton/>
+                            <AppbarThemeButton/>
 
-                            {process.env.NODE_ENV === "development" && <AppBarDebugButton/>}
+                            {process.env.NODE_ENV === "development" && <AppbarDebugButton/>}
                         </Toolbar>
                     </AppBar>
 
