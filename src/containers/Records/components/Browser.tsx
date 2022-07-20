@@ -3,7 +3,6 @@ import {ApplicationContext} from "@utils/context";
 import BrowserActions from "@feature/Records/components/BrowserActions";
 import Navigator from "@components/Navigator";
 import BrowserNavigatorItems from "@feature/Records/components/BrowserNavigatorItems";
-import {useTranslation} from "react-i18next";
 import axios from "axios";
 import {CardResponseDto} from "@model/records";
 import {Slide} from "@mui/material";
@@ -23,15 +22,13 @@ const Browser: React.FC = () => {
     const preferences = useReadonlyPreferences("records.browser");
     const [data, setData] = useState<CardResponseDto | null>(null);
     const [scrolledDown, setScrolledDown] = useState(false);
-    const {t} = useTranslation();
 
     useEffect(() => {
-        configureView(t("pages.records"));
         configureAddon(<BrowserActions/>);
         return () => {
             ejectView();
         }
-    }, [configureAddon, configureView, ejectView, t]);
+    }, [configureAddon, configureView, ejectView]);
 
     useEffect(() => {
         axios.get<CardResponseDto>(process.env.REACT_APP_API_ROOT + "/records/cards?p=1")

@@ -71,7 +71,7 @@ export function useApplicationContextInit(): IApplicationContext {
             });
         },
 
-        configureView: (caption, search) => {
+        configureView: (search, caption) => {
             setContext(prev => ({
                 ...prev, view: {
                     caption,

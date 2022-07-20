@@ -1,23 +1,42 @@
 import React, {useEffect, useMemo} from 'react';
 import {useTranslation} from "react-i18next";
-import {Outlet} from "react-router-dom";
+import {Outlet, useLocation} from "react-router-dom";
 import {AppBar, Box, createTheme, CssBaseline, Link, ThemeProvider, Toolbar, Typography} from "@mui/material";
 
 import {ApplicationContext} from "@utils/context";
 import getDesignTokens from "@utils/theme";
-import Sidebar from "./Sidebar";
+import {useApplicationContextInit} from "../context";
 import LinkBehavior from "@components/LinkBehavior";
-import AppbarSearchField from "./AppbarSearchField";
 import AppbarLogo from "./AppbarLogo";
+import AppbarSearchField from "./AppbarSearchField";
 import AppbarLanguageButton from "./AppbarLanguageButton";
 import AppbarThemeButton from "./AppbarThemeButton";
 import AppbarDebugButton from "./AppbarDebugButton";
 import AppbarLoginButton from "./AppbarLoginButton";
-import {useApplicationContextInit} from "../context";
+import Sidebar from "./Sidebar";
 
 const App: React.FC = () => {
     const context = useApplicationContextInit();
     const {i18n} = useTranslation();
+    const location = useLocation();
+
+    const guessViewCaption = (prefix: string = "pages"): string | undefined => {
+        let paths = location.pathname.split("/", 3)
+            .map(p => p.trim())
+            .filter(p => p.length > 0);
+
+        let translationKeys = [];
+        if (paths.length < 1)
+            translationKeys.push(`${prefix}.root`);
+        else {
+            do {
+                translationKeys.push(`${prefix}.${paths.join("-")}`);
+                paths = paths.slice(0, paths.length - 1);
+            } while (paths.length > 0);
+        }
+
+        return i18n.t(translationKeys);
+    }
 
     const theme = useMemo(() => createTheme(
             getDesignTokens(context.preferences.theme)),
@@ -41,12 +60,12 @@ const App: React.FC = () => {
                             </Link>
 
                             <Typography variant="h5" component="div" sx={{flexGrow: 1, ml: 2}}>
-                                {context.view.caption || "Home"}
+                                {context.view.caption || guessViewCaption() || `[${location.pathname}]`}
                             </Typography>
 
                             {context.view.search &&
                                 <AppbarSearchField onSearch={context.view.search}
-                                                   placeholder={`Search ${context.view.caption}...`}/>}
+                                                   placeholder={guessViewCaption("search") || `Search ${location.pathname}`}/>}
 
                             <AppbarLanguageButton i18n={i18n}/>
 

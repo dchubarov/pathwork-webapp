@@ -4,9 +4,14 @@
   },
 
   "pages": {
-    "dashboard": "Dashboard",
+    "root": "Dashboard",
     "blog": "Blog",
+    "blog-post": "Blog post",
     "records": "Records"
+  },
+
+  "search": {
+    "blog": "Search in blog"
   },
 
   "navigator": {

@@ -3,12 +3,20 @@
     "label": "рус"
   },
   "pages": {
+    "root": "Панель управления",
     "blog": "Блог",
+    "blog-post": "Запись блога",
     "records": "Картотека"
   },
+
+  "search": {
+    "blog": "Поиск по блогу"
+  },
+
   "navigator": {
     "page": "Страница {{page}} из {{total}}"
   },
+
   "time": {
     "full.now": "сейчас",
     "full.minutes_one": "минуту назад",

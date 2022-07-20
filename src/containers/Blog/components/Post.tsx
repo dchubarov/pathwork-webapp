@@ -9,7 +9,6 @@ const Post: React.FC = () => {
     const {slug} = useParams();
 
     useEffect(() => {
-        configureView("Blog post");
         configureAddon(<PostActions/>);
         return () => ejectView();
     }, [configureView, configureAddon, ejectView]);

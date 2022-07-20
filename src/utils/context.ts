@@ -44,7 +44,7 @@ export interface IApplicationContext {
     readonly logout: () => void;
 
     /** Configure view basic parameters */
-    readonly configureView: (caption?: string, search?: SearchHandler) => void;
+    readonly configureView: (search?: SearchHandler, caption?: string) => void;
     /** Configure add-on view at specified slot, removes add-on if component is null */
     readonly configureAddon: (component: React.ReactNode | null, slot?: number, caption?: string) => void;
     /** Ejects view and its add-ons */

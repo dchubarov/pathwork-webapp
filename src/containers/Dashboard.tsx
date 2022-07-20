@@ -15,15 +15,14 @@ const Widget = styled(Paper)(({theme}) => ({
 }));
 
 const Dashboard = () => {
-    const {configureView, ejectView} = useContext(ApplicationContext);
+    const {ejectView} = useContext(ApplicationContext);
     const {t} = useTranslation();
 
     useEffect(() => {
-        configureView(t("pages.dashboard"));
         return () => {
             ejectView();
         }
-    }, [t, configureView, ejectView])
+    }, [ejectView])
 
     return (
         <Grid container spacing={2} mt={1}>

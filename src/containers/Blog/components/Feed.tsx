@@ -31,9 +31,9 @@ const Feed: React.FC = () => {
     const handleSetPage = (page: number) => setSearchParams({...queryToSearchParams(state.query), p: page});
 
     useEffect(() => {
-        configureView(t("pages.blog"), search => setSearchParams({s: search}));
+        configureView(search => setSearchParams({s: search}));
         return () => ejectView();
-    }, [configureView, ejectView, setSearchParams, t]);
+    }, [configureView, ejectView, setSearchParams]);
 
     useEffect(() => {
         dispatch({type: "apply-search-params", searchParams: searchParams});
