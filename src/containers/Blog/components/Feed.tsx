@@ -22,7 +22,7 @@ import FeedQueryStatus from "./FeedQueryStatus";
 import TagListSidecar from "./TagListSidecar";
 
 const Feed: React.FC = () => {
-    const {configureView, configureSidebar, ejectView} = useContext(ApplicationContext);
+    const {configureView, configureAddon, ejectView} = useContext(ApplicationContext);
     const [state, dispatch] = useReducer(FeedState.reducer, FeedState.initial);
     const [scrolledDown, setScrolledDown] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -31,12 +31,9 @@ const Feed: React.FC = () => {
     const handleSetPage = (page: number) => setSearchParams({...queryToSearchParams(state.query), p: page});
 
     useEffect(() => {
-        return () => ejectView();
-    }, [ejectView]);
-
-    useEffect(() => {
         configureView(t("pages.blog"), search => setSearchParams({s: search}));
-    }, [configureView, setSearchParams, t]);
+        return () => ejectView();
+    }, [configureView, ejectView, setSearchParams, t]);
 
     useEffect(() => {
         dispatch({type: "apply-search-params", searchParams: searchParams});
@@ -45,7 +42,7 @@ const Feed: React.FC = () => {
     useEffect(() => {
         switch (state.mode) {
             case "reload":
-                configureSidebar(<FeedActions loading/>);
+                configureAddon(<FeedActions loading/>);
                 axios.get<BlogPageDto>(process.env.REACT_APP_API_ROOT + `/blog/recent?p=${state.query.page || 1}`)
                     .then(response => dispatch({type: "page-loaded", data: response.data}))
                     .catch(() => dispatch({type: "page-error"}));
@@ -53,11 +50,11 @@ const Feed: React.FC = () => {
 
             case "loaded":
             case "loaded-nodata":
-                configureSidebar(<FeedActions/>);
-                configureSidebar(<TagListSidecar tags={state.data?.availableTags || []}/>, 2, "Tags");
+                configureAddon(<FeedActions/>);
+                configureAddon(<TagListSidecar tags={state.data?.availableTags || []}/>, 2, "Tags");
                 break;
         }
-    }, [state, configureSidebar]);
+    }, [state.data, state.mode, state.query, configureAddon, t]);
 
     return (
         <React.Fragment>

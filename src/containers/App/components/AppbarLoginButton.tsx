@@ -8,13 +8,13 @@ const AppbarLoginButton = () => {
     const {auth, login, logout} = useContext(ApplicationContext);
 
     const handleClick = () => {
-        auth.isLoggedIn ? logout() : login("dime", "123");
+        auth.session ? logout() : login("dime", "123");
     }
 
     return (
-        <Tooltip title={auth.isLoggedIn ? auth.user! : "Sign-in"}>
+        <Tooltip title={auth.user ? auth.user : "Sign-in"}>
             <IconButton color="inherit" onClick={handleClick}>
-                {auth.isLoggedIn ? <StaffAvatar name={auth.user!} kind="user"/> : <LoginIcon/>}
+                {auth.user ? <StaffAvatar name={auth.user} kind="user"/> : <LoginIcon/>}
             </IconButton>
         </Tooltip>
     );

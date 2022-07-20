@@ -5,14 +5,14 @@ import {ApplicationContext} from "@utils/context";
 import PostActions from "@feature/Blog/components/PostActions";
 
 const Post: React.FC = () => {
-    const {configureView, configureSidebar, ejectView} = useContext(ApplicationContext);
+    const {configureView, configureAddon, ejectView} = useContext(ApplicationContext);
     const {slug} = useParams();
 
     useEffect(() => {
         configureView("Blog post");
-        configureSidebar(<PostActions/>);
+        configureAddon(<PostActions/>);
         return () => ejectView();
-    }, [configureView, configureSidebar, ejectView]);
+    }, [configureView, configureAddon, ejectView]);
 
     return (
         <Typography variant="h4">{slug}</Typography>

@@ -19,7 +19,7 @@ import BrowserList from "@feature/Records/components/BrowserList";
  * @constructor
  */
 const Browser: React.FC = () => {
-    const {configureSidebar, configureView, ejectView} = useContext(ApplicationContext);
+    const {configureAddon, configureView, ejectView} = useContext(ApplicationContext);
     const preferences = useReadonlyPreferences("records.browser");
     const [data, setData] = useState<CardResponseDto | null>(null);
     const [scrolledDown, setScrolledDown] = useState(false);
@@ -27,11 +27,11 @@ const Browser: React.FC = () => {
 
     useEffect(() => {
         configureView(t("pages.records"));
-        configureSidebar(<BrowserActions/>);
+        configureAddon(<BrowserActions/>);
         return () => {
             ejectView();
         }
-    }, [configureSidebar, configureView, ejectView, t]);
+    }, [configureAddon, configureView, ejectView, t]);
 
     useEffect(() => {
         axios.get<CardResponseDto>(process.env.REACT_APP_API_ROOT + "/records/cards?p=1")

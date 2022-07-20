@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Create as CreateIcon, Refresh as RefreshIcon} from "@mui/icons-material";
 import {Badge, Box, Button, CircularProgress, Tooltip} from "@mui/material";
 import RoundedIconButton from "@components/RoundedIconButton";
+import {ApplicationContext} from "@utils/context";
 
 interface Props {
     loading?: boolean;
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const FeedActions: React.FC<Props> = ({loading, unread}) => {
+    const {auth} = useContext(ApplicationContext);
+
     const recentPostsChild = (
         <RefreshIcon/>
     );
@@ -35,7 +38,7 @@ const FeedActions: React.FC<Props> = ({loading, unread}) => {
 
             <Button color="success"
                     variant={loading ? "text" : "contained"}
-                    disabled={loading}
+                    disabled={loading || !auth.session}
                     endIcon={loading ? null : <CreateIcon/>}
                     sx={{flexGrow: 1, ml: 0.5}}>
                 {loading ? "Loading..." : "New post"}

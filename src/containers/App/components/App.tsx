@@ -14,10 +14,10 @@ import {
     useMediaQuery
 } from "@mui/material";
 
-import {ApplicationContext, IApplicationContext, LoggedOut, SearchHandler} from "@utils/context";
+import {Addon, ApplicationContext, IApplicationContext} from "@utils/context";
 import {initPreferences, mergePreferences, PreferenceInit} from "@utils/prefs";
 import getDesignTokens from "@utils/theme";
-import Sidebar, {SidebarChild} from "./Sidebar";
+import Sidebar from "./Sidebar";
 import LinkBehavior from "@components/LinkBehavior";
 import AppbarSearchField from "./AppbarSearchField";
 import AppbarLogo from "./AppbarLogo";
@@ -26,6 +26,7 @@ import AppbarThemeButton from "./AppbarThemeButton";
 import AppbarDebugButton from "./AppbarDebugButton";
 import AppbarLoginButton from "./AppbarLoginButton";
 import axios from "axios";
+import moment from "moment";
 
 const developerPrefsInit: any = process.env.NODE_ENV !== "development" ? {} : {
     enableDebugFeatures: () => false,
@@ -33,13 +34,9 @@ const developerPrefsInit: any = process.env.NODE_ENV !== "development" ? {} : {
 
 const App: React.FC = () => {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-    const [sidebarChildren, setSidebarChildren] = useState(new Map<number, SidebarChild>());
-    const [searchHandler, setSearchHandler] = useState<SearchHandler | undefined>();
-    const [section, setSection] = useState<string | undefined>();
     const {i18n} = useTranslation();
 
     const [context, setContext] = useState<IApplicationContext>({
-        auth: LoggedOut,
         preferences: initPreferences({
             language: new PreferenceInit(i18n.language),
             theme: new PreferenceInit<PaletteMode>(prefersDarkMode ? "dark" : "light"),
@@ -56,45 +53,79 @@ const App: React.FC = () => {
             developer: developerPrefsInit
         }),
 
-        login: (user, password) => {
-            axios.get<any>(`${process.env.REACT_APP_API_ROOT}/auth/login?u=${user}&p=${password}`)
-                .then(response => {
-                    setContext(prev => ({
-                        ...prev, auth: {
-                            isLoggedIn: true,
-                            user: response.data.user,
-                            session: response.data.session,
-                        }
-                    }));
-                })
-        },
+        view: {},
 
-        logout: () => {
-            axios.get(`${process.env.REACT_APP_API_ROOT}/auth/logout`)
-                .then(() => setContext(prev => ({...prev, auth: LoggedOut})));
-        },
-
-        configureSidebar: (component, slot, caption) => {
-            setSidebarChildren(new Map(sidebarChildren.set(slot || 0, {component: component, caption: caption})));
-        },
-
-        configureView: (section, searcher) => {
-            setSection(section);
-            setSearchHandler(() => searcher);
-        },
-
-        ejectView: () => {
-            sidebarChildren.clear();
-            setSidebarChildren(new Map<number, SidebarChild>());
-            setSearchHandler(undefined);
-            setSection(undefined);
-        },
+        auth: {},
 
         updatePreferences: (init) => {
             setContext(prev => {
                 const [preferences, changed] = mergePreferences(init, prev.preferences);
                 return changed ? {...prev, preferences} : prev;
             });
+        },
+
+        login: (user, password) => {
+            setContext(prev => {
+                if (prev.auth.session) {
+                    // TODO logout previous session
+                }
+
+                axios.get<any>(`${process.env.REACT_APP_API_ROOT}/auth/login?u=${user}&p=${password}`)
+                    .then(response => {
+                        setContext(prev1 => ({
+                            ...prev1, auth: {
+                                user: response.data.user,
+                                session: response.data.session,
+                                expires: moment().unix() + 3600,
+                            }
+                        }));
+                    });
+
+                return prev;
+            });
+        },
+
+        logout: () => {
+            setContext(prev => {
+                if (prev.auth.session) {
+                    axios.get(`${process.env.REACT_APP_API_ROOT}/auth/logout?s=${prev.auth.session}`).then();
+                    return {...prev, auth: {}};
+                }
+
+                return prev;
+            });
+        },
+
+        configureView: (caption, search) => {
+            setContext(prev => ({
+                ...prev, view: {
+                    caption,
+                    search
+                }
+            }));
+        },
+
+        configureAddon: (component, slot, caption) => {
+            setContext(prev => {
+                const addons = new Map<number, Addon>(prev.view.addons);
+                if (component !== null) {
+                    return {
+                        ...prev, view: {
+                            ...prev.view, addons: addons
+                                .set(slot || 0, {component, caption})
+                        }
+                    };
+                } else {
+                    if (addons.delete(slot || 0))
+                        return {...prev, view: {...prev.view, addons}};
+                }
+
+                return prev;
+            });
+        },
+
+        ejectView: () => {
+            setContext(prev => ({...prev, view: {}}));
         }
     });
 
@@ -120,11 +151,12 @@ const App: React.FC = () => {
                             </Link>
 
                             <Typography variant="h5" component="div" sx={{flexGrow: 1, ml: 2}}>
-                                {section || "Home"}
+                                {context.view.caption || "Home"}
                             </Typography>
 
-                            {searchHandler &&
-                                <AppbarSearchField onSearch={searchHandler} placeholder={`Search ${section}...`}/>}
+                            {context.view.search &&
+                                <AppbarSearchField onSearch={context.view.search}
+                                                   placeholder={`Search ${context.view.caption}...`}/>}
 
                             <AppbarLanguageButton i18n={i18n}/>
 
@@ -136,9 +168,7 @@ const App: React.FC = () => {
                         </Toolbar>
                     </AppBar>
 
-                    <Sidebar children={sidebarChildren}
-                             showCaptions={true}
-                             showDividers={false}/>
+                    <Sidebar showCaptions={true} showDividers={false}/>
 
                     <Box sx={{flexGrow: 1, p: 1}}>
                         <Toolbar/>
