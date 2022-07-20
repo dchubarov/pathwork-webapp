@@ -1,21 +1,9 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {useTranslation} from "react-i18next";
 import {Outlet} from "react-router-dom";
-import {
-    AppBar,
-    Box,
-    createTheme,
-    CssBaseline,
-    Link,
-    PaletteMode,
-    ThemeProvider,
-    Toolbar,
-    Typography,
-    useMediaQuery
-} from "@mui/material";
+import {AppBar, Box, createTheme, CssBaseline, Link, ThemeProvider, Toolbar, Typography} from "@mui/material";
 
-import {Addon, ApplicationContext, IApplicationContext} from "@utils/context";
-import {initPreferences, mergePreferences, PreferenceInit} from "@utils/prefs";
+import {ApplicationContext} from "@utils/context";
 import getDesignTokens from "@utils/theme";
 import Sidebar from "./Sidebar";
 import LinkBehavior from "@components/LinkBehavior";
@@ -25,109 +13,11 @@ import AppbarLanguageButton from "./AppbarLanguageButton";
 import AppbarThemeButton from "./AppbarThemeButton";
 import AppbarDebugButton from "./AppbarDebugButton";
 import AppbarLoginButton from "./AppbarLoginButton";
-import axios from "axios";
-import moment from "moment";
-
-const developerPrefsInit: any = process.env.NODE_ENV !== "development" ? {} : {
-    enableDebugFeatures: () => false,
-};
+import {useApplicationContextInit} from "../context";
 
 const App: React.FC = () => {
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const context = useApplicationContextInit();
     const {i18n} = useTranslation();
-
-    const [context, setContext] = useState<IApplicationContext>({
-        preferences: initPreferences({
-            language: new PreferenceInit(i18n.language),
-            theme: new PreferenceInit<PaletteMode>(prefersDarkMode ? "dark" : "light"),
-            records: {
-                browser: {
-                    mode: new PreferenceInit("masonry"),
-                    size: new PreferenceInit("medium"),
-                    sort: {
-                        by: new PreferenceInit("updated"),
-                        reverse: new PreferenceInit(true),
-                    }
-                }
-            },
-            developer: developerPrefsInit
-        }),
-
-        view: {},
-
-        auth: {},
-
-        updatePreferences: (init) => {
-            setContext(prev => {
-                const [preferences, changed] = mergePreferences(init, prev.preferences);
-                return changed ? {...prev, preferences} : prev;
-            });
-        },
-
-        login: (user, password) => {
-            setContext(prev => {
-                if (prev.auth.session) {
-                    // TODO logout previous session
-                }
-
-                axios.get<any>(`${process.env.REACT_APP_API_ROOT}/auth/login?u=${user}&p=${password}`)
-                    .then(response => {
-                        setContext(prev1 => ({
-                            ...prev1, auth: {
-                                user: response.data.user,
-                                session: response.data.session,
-                                expires: moment().unix() + 3600,
-                            }
-                        }));
-                    });
-
-                return prev;
-            });
-        },
-
-        logout: () => {
-            setContext(prev => {
-                if (prev.auth.session) {
-                    axios.get(`${process.env.REACT_APP_API_ROOT}/auth/logout?s=${prev.auth.session}`).then();
-                    return {...prev, auth: {}};
-                }
-
-                return prev;
-            });
-        },
-
-        configureView: (caption, search) => {
-            setContext(prev => ({
-                ...prev, view: {
-                    caption,
-                    search
-                }
-            }));
-        },
-
-        configureAddon: (component, slot, caption) => {
-            setContext(prev => {
-                const addons = new Map<number, Addon>(prev.view.addons);
-                if (component !== null) {
-                    return {
-                        ...prev, view: {
-                            ...prev.view, addons: addons
-                                .set(slot || 0, {component, caption})
-                        }
-                    };
-                } else {
-                    if (addons.delete(slot || 0))
-                        return {...prev, view: {...prev.view, addons}};
-                }
-
-                return prev;
-            });
-        },
-
-        ejectView: () => {
-            setContext(prev => ({...prev, view: {}}));
-        }
-    });
 
     const theme = useMemo(() => createTheme(
             getDesignTokens(context.preferences.theme)),
