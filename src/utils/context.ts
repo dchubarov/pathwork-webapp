@@ -6,7 +6,7 @@ export interface Addon {
     /** Addon caption */
     readonly caption?: string;
     /** Addon component */
-    readonly component: JSX.Element;
+    readonly component: React.ReactNode;
 }
 
 export interface View {
@@ -44,9 +44,9 @@ export interface IApplicationContext {
     readonly logout: () => void;
 
     /** Configure view basic parameters */
-    readonly configureView: (caption: string, search?: SearchHandler) => void;
+    readonly configureView: (caption?: string, search?: SearchHandler) => void;
     /** Configure add-on view at specified slot, removes add-on if component is null */
-    readonly configureAddon: (component: JSX.Element | null, slot?: number, caption?: string) => void;
+    readonly configureAddon: (component: React.ReactNode | null, slot?: number, caption?: string) => void;
     /** Ejects view and its add-ons */
     readonly ejectView: () => void;
 }
