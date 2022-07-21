@@ -17,6 +17,7 @@ import {formatDateTime, relativeTimeT} from "@utils/datetime";
 import SharingStatus from "@components/SharingStatus";
 import {ArrowDropDown as CollapseIcon, ArrowRight as ExpandIcon} from "@mui/icons-material";
 import {Optional} from "@utils/optional";
+import {useTranslation} from "react-i18next";
 
 const ColorLabel = styled(Box)(({theme}) => ({
     width: "1em",
@@ -28,6 +29,7 @@ const ColorLabel = styled(Box)(({theme}) => ({
 const BrowserList: React.FC<{ data: CardDto[] }> = ({data}) => {
     const [expandedRecordId, setExpandedRecordId] = useState<string | undefined>();
     const extras = ["footer-left", "footer-right"];
+    const {t} = useTranslation();
 
     const handleExpandOrCollapse = (card: CardDto) => {
         setExpandedRecordId(expandedRecordId !== card.record.id ? card.record.id : undefined);
@@ -99,7 +101,7 @@ const BrowserList: React.FC<{ data: CardDto[] }> = ({data}) => {
                                     <SharingStatus user={card.record.created.user}/>
                                     <Typography variant="body2" color="text.secondary"
                                                 title={formatDateTime(card.record.created.timestamp)}>
-                                        {relativeTimeT(card.record.created.timestamp, undefined, "short")}
+                                        {relativeTimeT(t, card.record.created.timestamp, undefined, "short")}
                                     </Typography>
                                 </TableCell>
                             </TableRow>

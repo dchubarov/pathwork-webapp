@@ -18,6 +18,7 @@ import {formatDateTime, relativeTimeT} from "@utils/datetime";
 import {Optional} from "@utils/optional";
 import {clipText} from "@utils/text";
 import LinkBehavior from "@components/LinkBehavior";
+import {useTranslation} from "react-i18next";
 
 interface Props {
     data: CardDto;
@@ -26,6 +27,8 @@ interface Props {
 }
 
 const BrowserCard: React.FC<Props> = ({data, clip, fullSize}) => {
+    const {t} = useTranslation();
+
     const byLayout = (role: CardLayoutElement, elements: CardLayoutDto[] = data.layout): Optional<FieldDto> => {
         return Optional.of(elements.find(e => e.element === role)).map(e => e.field);
     }
@@ -36,7 +39,7 @@ const BrowserCard: React.FC<Props> = ({data, clip, fullSize}) => {
         </Link>
         &nbsp;
         <span title={formatDateTime(data.record.created.timestamp)}>
-            {relativeTimeT(data.record.created.timestamp, undefined, "short")}
+            {relativeTimeT(t, data.record.created.timestamp, undefined, "short")}
         </span>
     </Typography>;
 

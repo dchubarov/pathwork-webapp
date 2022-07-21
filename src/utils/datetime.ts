@@ -1,5 +1,5 @@
 import * as moment from "moment";
-import i18next from "i18next";
+import {TFunction} from "i18next";
 
 const defaultDateTimeFormat = "YYYY-MM-DD hh:mm A";
 const defaultDateTimeSecondsFormat = "YYYY-MM-DD hh:mm:ss A";
@@ -38,9 +38,9 @@ export function relativeTime(date: moment.MomentInput, current?: moment.MomentIn
         return {interval: "now"}; // just now (<1m)
 }
 
-export function relativeTimeT(date: moment.MomentInput, current?: moment.MomentInput, format: "full" | "short" = "full"): string {
+export function relativeTimeT(t: TFunction, date: moment.MomentInput, current?: moment.MomentInput, format: "full" | "short" = "full"): string {
     const rel = relativeTime(date, current);
-    return i18next.t(
+    return t(
         `time.${format}.${rel.interval}`,
         `${rel.n} ${rel.interval}`,
         {

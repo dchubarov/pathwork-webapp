@@ -74,7 +74,7 @@ const Feed: React.FC = () => {
                     {state.data.posts && state.data.posts.length > 0 && <Stack mt={2} mb={1} spacing={2}>
                         {state.data.posts.map((post, index) =>
                             <Box key={`post-${index + 1}`}>
-                                <SharingStatus user={post.author} info={relativeTimeT(post.created)}/>
+                                <SharingStatus user={post.author} info={relativeTimeT(t, post.created)}/>
                                 <Link component={LinkBehavior} variant="h5" href={`post/${post.id}`} underline="none"
                                       color="inherit">{post.title}</Link>
                                 <TagArray tags={post.tags}/>
