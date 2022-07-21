@@ -3,9 +3,6 @@ import {useSearchParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {Box, Button, Link, Slide, Stack, Typography} from "@mui/material";
 import {ChatBubbleOutline as CommentsIcon, Warning as WarningIcon} from "@mui/icons-material";
-import axios from "axios";
-
-import {BlogPageDto} from "@model/blog";
 import {ApplicationContext} from "@utils/context";
 import {relativeTimeT} from "@utils/datetime";
 import FeedActions from "./FeedActions";
@@ -20,6 +17,7 @@ import Navigator from "@components/Navigator";
 import {FeedState, queryToSearchParams} from "../reducers/feed";
 import FeedQueryStatus from "./FeedQueryStatus";
 import TagListSidecar from "./TagListSidecar";
+import BlogApi from "../api";
 
 const Feed: React.FC = () => {
     const {configureView, configureAddon, ejectView} = useContext(ApplicationContext);
@@ -43,9 +41,10 @@ const Feed: React.FC = () => {
         switch (state.mode) {
             case "reload":
                 configureAddon(<FeedActions loading/>);
-                axios.get<BlogPageDto>(process.env.REACT_APP_API_ROOT + `/blog/recent?p=${state.query.page || 1}`)
-                    .then(response => dispatch({type: "page-loaded", data: response.data}))
+                BlogApi.getRecentEntries(state.query.page)
+                    .then(response => dispatch({type: "page-loaded", data: response}))
                     .catch(() => dispatch({type: "page-error"}));
+
                 break;
 
             case "loaded":

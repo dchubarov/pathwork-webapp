@@ -1,9 +1,8 @@
 import {useState} from "react";
-import axios from "axios";
-import moment from "moment";
 import {PaletteMode, useMediaQuery} from "@mui/material";
 import {Addon, IApplicationContext} from "@utils/context";
 import {initPreferences, mergePreferences, PreferenceInit} from "@utils/prefs";
+import AuthApi from "@api/auth";
 
 const developerPrefsInit: any = process.env.NODE_ENV !== "development" ? {} : {
     enableDebugFeatures: () => false,
@@ -42,19 +41,22 @@ export function useApplicationContextInit(): IApplicationContext {
         login: (user, password) => {
             setContext(prev => {
                 if (prev.auth.session) {
-                    // TODO logout previous session
+                    AuthApi.logout(prev.auth.session).then();
                 }
 
-                axios.get<any>(`${process.env.REACT_APP_API_ROOT}/auth/login?u=${user}&p=${password}`)
-                    .then(response => {
+                if (user && password) {
+                    AuthApi.login(user, password).then(response => {
                         setContext(prev1 => ({
                             ...prev1, auth: {
-                                user: response.data.user,
-                                session: response.data.session,
-                                expires: moment().unix() + 3600,
+                                session: response.session,
+                                expires: response.expires,
+                                user: response.user,
                             }
                         }));
                     });
+                } else {
+                    // TODO join session
+                }
 
                 return prev;
             });
@@ -63,7 +65,7 @@ export function useApplicationContextInit(): IApplicationContext {
         logout: () => {
             setContext(prev => {
                 if (prev.auth.session) {
-                    axios.get(`${process.env.REACT_APP_API_ROOT}/auth/logout?s=${prev.auth.session}`).then();
+                    AuthApi.logout(prev.auth.session).then();
                     return {...prev, auth: {}};
                 }
 

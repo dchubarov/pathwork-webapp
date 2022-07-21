@@ -2,7 +2,6 @@ import {MaterialId} from "@model/common";
 import {ChangeDto} from "@model/change";
 
 export type CardLayoutElement = "caption" | "detail" | "footer-left" | "footer-right";
-
 /** Field datatype */
 export type FieldDatatype = "default" | "flag" | "number" | "date" | "datetime";
 

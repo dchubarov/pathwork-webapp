@@ -1,17 +1,19 @@
 import React, {useContext, useEffect, useState} from "react";
+
 import {ApplicationContext} from "@utils/context";
-import BrowserActions from "@feature/Records/components/BrowserActions";
 import Navigator from "@components/Navigator";
-import BrowserNavigatorItems from "@feature/Records/components/BrowserNavigatorItems";
-import axios from "axios";
-import {CardResponseDto} from "@model/records";
 import {Slide} from "@mui/material";
 import OnScreen from "@components/OnScreen";
 import {useReadonlyPreferences} from "@utils/prefs";
 import Debug from "@components/Debug";
-import BrowserMasonry from "@feature/Records/components/BrowserMasonry";
-import BrowserGrid from "@feature/Records/components/BrowserGrid";
-import BrowserList from "@feature/Records/components/BrowserList";
+
+import RecordsApi from "../api";
+import {CardResponseDto} from "../model";
+import BrowserNavigatorItems from "./BrowserNavigatorItems";
+import BrowserActions from "./BrowserActions";
+import BrowserMasonry from "./BrowserMasonry";
+import BrowserGrid from "./BrowserGrid";
+import BrowserList from "./BrowserList";
 
 /**
  * Records collection browser container.
@@ -31,8 +33,8 @@ const Browser: React.FC = () => {
     }, [configureAddon, configureView, ejectView]);
 
     useEffect(() => {
-        axios.get<CardResponseDto>(process.env.REACT_APP_API_ROOT + "/records/cards?p=1")
-            .then(response => setData(response.data))
+        RecordsApi.getCards()
+            .then(response => setData(response))
             .catch(() => setData(null));
     }, []);
 

@@ -1,7 +1,7 @@
 import React from "react";
 import {Masonry} from "@mui/lab";
-import BrowserCard from "@feature/Records/components/BrowserCard";
-import {CardDto} from "@model/records";
+import BrowserCard from "./BrowserCard";
+import {CardDto} from "../model";
 
 interface Props {
     preferences: any,

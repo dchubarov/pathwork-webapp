@@ -1,4 +1,4 @@
-import {BlogPageDto} from "@model/blog";
+import {BlogPageDto} from "../model";
 import {Optional} from "@utils/optional";
 import * as _ from "lodash";
 

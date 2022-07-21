@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {useTranslation} from "react-i18next";
 import {
     Box,
     Collapse,
@@ -12,12 +13,12 @@ import {
     TableRow,
     Typography
 } from "@mui/material";
-import {CardDto} from "@model/records";
+import {ArrowDropDown as CollapseIcon, ArrowRight as ExpandIcon} from "@mui/icons-material";
+
 import {formatDateTime, relativeTimeT} from "@utils/datetime";
 import SharingStatus from "@components/SharingStatus";
-import {ArrowDropDown as CollapseIcon, ArrowRight as ExpandIcon} from "@mui/icons-material";
 import {Optional} from "@utils/optional";
-import {useTranslation} from "react-i18next";
+import {CardDto} from "../model";
 
 const ColorLabel = styled(Box)(({theme}) => ({
     width: "1em",

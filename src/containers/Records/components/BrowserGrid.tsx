@@ -1,7 +1,7 @@
 import React from "react";
 import {Grid} from "@mui/material";
-import {CardDto} from "@model/records";
-import BrowserCard from "@feature/Records/components/BrowserCard";
+import BrowserCard from "./BrowserCard";
+import {CardDto} from "../model";
 
 interface Props {
     preferences: any,

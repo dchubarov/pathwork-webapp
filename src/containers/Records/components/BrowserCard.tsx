@@ -1,4 +1,5 @@
 import React from "react";
+import {useTranslation} from "react-i18next";
 import {
     alpha,
     Box,
@@ -11,14 +12,15 @@ import {
     Link,
     Typography
 } from "@mui/material";
-import {CardDto, CardLayoutDto, CardLayoutElement, FieldDto} from "@model/records";
-import TagArray from "@components/TagArray";
-import StaffAvatar from "@components/StaffAvatar";
-import {formatDateTime, relativeTimeT} from "@utils/datetime";
+
 import {Optional} from "@utils/optional";
 import {clipText} from "@utils/text";
+import {formatDateTime, relativeTimeT} from "@utils/datetime";
+import TagArray from "@components/TagArray";
+import StaffAvatar from "@components/StaffAvatar";
 import LinkBehavior from "@components/LinkBehavior";
-import {useTranslation} from "react-i18next";
+
+import {CardDto, CardLayoutDto, CardLayoutElement, FieldDto} from "../model";
 
 interface Props {
     data: CardDto;

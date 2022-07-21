@@ -1,4 +1,4 @@
-import {TagName, TagUsageDto} from "./tag";
+import {TagName, TagUsageDto} from "@model/tag";
 
 export interface BlogPostDto {
     id: string;
