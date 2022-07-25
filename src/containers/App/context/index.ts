@@ -48,9 +48,10 @@ export function useApplicationContextInit(): IApplicationContext {
                     AuthApi.login(user, password).then(response => {
                         setContext(prev1 => ({
                             ...prev1, auth: {
+                                user: response.user,
                                 session: response.session,
                                 expires: response.expires,
-                                user: response.user,
+                                status: "authenticated",
                             }
                         }));
                     });
@@ -58,7 +59,7 @@ export function useApplicationContextInit(): IApplicationContext {
                     // TODO join session
                 }
 
-                return prev;
+                return {...prev, auth: {status: "in-progress"}};
             });
         },
 

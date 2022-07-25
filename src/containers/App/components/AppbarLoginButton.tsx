@@ -13,8 +13,8 @@ const AppbarLoginButton = () => {
 
     return (
         <Tooltip title={auth.user ? auth.user : "Sign-in"}>
-            <IconButton color="inherit" onClick={handleClick}>
-                {auth.user ? <StaffAvatar name={auth.user} kind="user"/> : <LoginIcon/>}
+            <IconButton color="inherit" disabled={auth.status === "in-progress"} onClick={handleClick}>
+                {auth.status === "authenticated" && auth.user ? <StaffAvatar name={auth.user}/> : <LoginIcon/>}
             </IconButton>
         </Tooltip>
     );

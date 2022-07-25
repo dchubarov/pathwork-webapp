@@ -18,6 +18,8 @@ export interface View {
     readonly addons?: Map<number, Addon>;
 }
 
+export type AuthStatus = "in-progress" | "authenticated";
+
 export interface Auth {
     /** User name */
     readonly user?: string;
@@ -25,6 +27,8 @@ export interface Auth {
     readonly session?: string;
     /** Session expiration Unix time */
     readonly expires?: number;
+    /** Authentication status or undefined if user not logged in */
+    readonly status?: AuthStatus;
 }
 
 export interface IApplicationContext {
