@@ -48,10 +48,7 @@ export function useApplicationContextInit(): IApplicationContext {
                     AuthApi.login(user, password).then(response => {
                         setContext(prev1 => ({
                             ...prev1, auth: {
-                                user: response.user,
-                                fullName: response.fullName,
-                                session: response.session,
-                                expires: response.expires,
+                                ...response,
                                 status: "authenticated",
                             }
                         }));

@@ -57,7 +57,7 @@ const AppbarLoginButton = () => {
     return (
         <>
             <IconButton color="inherit" disabled={auth.status === "in-progress"} onClick={handleClick}>
-                {auth.status === "authenticated" && auth.user ? <StaffAvatar name={auth.user}/> : <LoginIcon/>}
+                {auth.status === "authenticated" && auth.user ? <StaffAvatar name={auth.user.login}/> : <LoginIcon/>}
             </IconButton>
 
             <Popover id={popoverId} anchorEl={anchorEl} open={popoverActive} onClose={handleClosePopover}

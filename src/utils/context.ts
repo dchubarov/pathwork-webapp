@@ -1,4 +1,5 @@
 import React from "react";
+import {LoginResponse} from "@model/auth";
 
 export type SearchHandler = (search: string) => void;
 
@@ -20,16 +21,7 @@ export interface View {
 
 export type AuthStatus = "in-progress" | "authenticated";
 
-export interface Auth {
-    /** User name */
-    readonly user?: string;
-    /** User's full name */
-    readonly fullName?: string;
-    /** Session identifier */
-    readonly session?: string;
-    /** Session expiration Unix time */
-    readonly expires?: number;
-    /** Authentication status or undefined if user not logged in */
+export type Auth = Partial<LoginResponse> & {
     readonly status?: AuthStatus;
 }
 

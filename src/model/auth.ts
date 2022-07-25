@@ -1,13 +1,18 @@
 
+export interface UserDto {
+    /** User login */
+    readonly login: string;
+    /** User display name */
+    readonly fullName?: string;
+}
+
 export interface LoginResponse {
-    /** Session ID */
-    session: string;
-    /** Session not valid after (unix) */
-    expires: number;
-    /** User name */
-    user: string;
-    /** User's full name */
-    fullName?: string;
+    /** Session id */
+    readonly session: string;
+    /** Session not valid after (Unix time) */
+    readonly expires: number;
+    /** User info */
+    readonly user: UserDto;
 }
 
 export interface LogoutResponse {

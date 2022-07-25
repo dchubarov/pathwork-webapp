@@ -15,12 +15,12 @@ const MiniProfile: React.FC<Props> = ({onLogout}) => {
 
     return (
         <Stack spacing={2} p={2}>
-            <Typography variant="subtitle2">
-                {t("auth.user-info", {user: auth.user})}
-                {auth.fullName && <Typography variant="body2" color="text.secondary">
-                    {auth.fullName}
+            {auth.user && <Typography variant="subtitle2">
+                {t("auth.user-info", {user: auth.user.login})}
+                {auth.user.fullName && <Typography variant="body2" color="text.secondary">
+                    {auth.user.fullName}
                 </Typography>}
-            </Typography>
+            </Typography>}
 
             <Link component={LinkBehavior} href="#" variant="body2">
                 {t("auth.user-profile")}
