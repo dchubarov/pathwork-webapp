@@ -23,6 +23,8 @@ export type AuthStatus = "in-progress" | "authenticated";
 export interface Auth {
     /** User name */
     readonly user?: string;
+    /** User's full name */
+    readonly fullName?: string;
     /** Session identifier */
     readonly session?: string;
     /** Session expiration Unix time */

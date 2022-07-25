@@ -1,6 +1,7 @@
 import {createServer} from "miragejs";
 import {Server} from "miragejs/server";
 import * as uuid from "uuid";
+import moment from "moment";
 
 export function installMockServer(): Server {
     const server = createServer({
@@ -13,7 +14,9 @@ export function installMockServer(): Server {
             this.get("/auth/login", (_, request) => {
                 return {
                     user: request.queryParams?.u,
+                    fullName: "Dmitry Chubarov",
                     session: uuid.v4(),
+                    expires: moment.utc().unix() + 3600,
                 }
             }, {timing: 800});
 

@@ -6,6 +6,8 @@ export interface LoginResponse {
     expires: number;
     /** User name */
     user: string;
+    /** User's full name */
+    fullName?: string;
 }
 
 export interface LogoutResponse {

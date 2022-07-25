@@ -49,6 +49,7 @@ export function useApplicationContextInit(): IApplicationContext {
                         setContext(prev1 => ({
                             ...prev1, auth: {
                                 user: response.user,
+                                fullName: response.fullName,
                                 session: response.session,
                                 expires: response.expires,
                                 status: "authenticated",
