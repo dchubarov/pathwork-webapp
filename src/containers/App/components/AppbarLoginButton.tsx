@@ -69,7 +69,7 @@ const AppbarLoginButton = () => {
                     <LoginForm onSubmit={handleLogin} progress={auth.status === "in-progress"}/>}
 
                 {auth.status === "authenticated" &&
-                    <MiniProfile onLogout={handleLogout}/>}
+                    <MiniProfile onNavigate={handleClosePopover} onLogout={handleLogout}/>}
 
             </Popover>
         </>

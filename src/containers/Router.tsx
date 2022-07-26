@@ -3,8 +3,9 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {App} from "./App";
 import NotFound from "./NotFound";
 import Dashboard from "./Dashboard";
-import * as Blog from "@feature/Blog";
-import * as Records from "@feature/Records";
+import * as Blog from "./Blog";
+import * as Records from "./Records";
+import Profile from "./Profile";
 
 const Router = () => {
     return (
@@ -21,6 +22,8 @@ const Router = () => {
                     <Route path="/records">
                         <Route index element={<Records.Browser/>}/>
                     </Route>
+
+                    <Route path="/users/:login" element={<Profile/>}/>
 
                     <Route path="*" element={<NotFound/>}/>
                 </Route>

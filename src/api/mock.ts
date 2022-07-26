@@ -1,6 +1,5 @@
-import {createServer} from "miragejs";
+import {createServer, Response} from "miragejs";
 import {Server} from "miragejs/server";
-import * as uuid from "uuid";
 import moment from "moment";
 import {LogoutResponse} from "@model/auth";
 
@@ -13,26 +12,28 @@ export function installMockServer(): Server {
                 () => ({status: "OK"}));
 
             this.get("/auth/login", (_, request) => {
-                return {
-                    session: uuid.v4(),
+                const user = request.queryParams?.u;
+                return user === "dime" || user === "dime@twowls.org" ? {
+                    session: "ootuong2Ait0oshi",
                     expires: moment.utc().unix() + 3600,
                     user: {
-                        login: request.queryParams?.u,
+                        login: "dime",
                         fullName: "Dmitry Chubarov",
                     },
-                }
-            }, {timing: 800});
+                } : new Response(401);
+            }, {timing: 500});
 
             this.get("/auth/join", (_, request) => {
-                return {
-                    session: request.queryParams?.s,
+                const session = request.queryParams?.s;
+                return session === "ootuong2Ait0oshi" ? {
+                    session: session,
                     expires: moment.utc().unix() + 3600,
                     user: {
                         login: "dime",
                         fullName: "Dmitry Chubarov",
                     }
-                }
-            }, {timing: 300});
+                } : new Response(401);
+            }, {timing: 100});
 
             this.get("/auth/logout", () => {
                 return {} as LogoutResponse;

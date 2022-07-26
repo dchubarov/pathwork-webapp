@@ -7,7 +7,8 @@
     "root": "Dashboard",
     "blog": "Blog",
     "blog-post": "Blog post",
-    "records": "Records"
+    "records": "Records",
+    "users": "Users"
   },
 
   "search": {
