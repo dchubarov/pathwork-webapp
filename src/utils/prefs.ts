@@ -21,7 +21,7 @@ export class PreferenceInit<T> {
  *
  * @param key preference key
  */
-export function usePreference<T>(key: string): [any, PreferenceUpdateFunc<T>] {
+export function usePreference<T = any>(key: string): [T, PreferenceUpdateFunc<T>] {
     const {preferences, updatePreferences} = useContext(ApplicationContext);
     const update: PreferenceUpdateFunc<T> = (v) => {
         let initRoot: any = {}, init = initRoot;
