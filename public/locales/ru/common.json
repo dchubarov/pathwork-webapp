@@ -25,7 +25,13 @@
     "login": "Вход",
     "logout": "Выход",
     "user-info": "Авторизован как {{user}}",
-    "user-profile": "Перейти в профиль"
+    "user-profile": "Перейти в профиль",
+    "user-membership": "Участник",
+    "user-role": {
+      "subscriber": "подписчик",
+      "contributor": "соавтор",
+      "admin": "админ"
+    }
   },
 
   "time": {

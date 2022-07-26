@@ -1,0 +1,18 @@
+{
+  "session": "ootuong2Ait0oshi",
+  "user": {
+    "login": "dime",
+    "email": "dime@twowls.org",
+    "cn": "Dmitry Chubarov",
+    "memberOf": [
+      {
+        "team": "devs",
+        "role": "admin"
+      },{
+        "team": "top123",
+        "cn": "Top 1-2-3",
+        "role": "contributor"
+      }
+    ]
+  }
+}

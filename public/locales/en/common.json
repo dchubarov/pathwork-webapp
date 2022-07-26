@@ -27,7 +27,13 @@
     "login": "Login",
     "logout": "Logout",
     "user-info": "Logged in as {{user}}",
-    "user-profile": "Go to profile"
+    "user-profile": "Go to profile",
+    "user-membership": "Member of",
+    "user-role": {
+      "subscriber": "subscriber",
+      "contributor": "contributor",
+      "admin": "admin"
+    }
   },
 
   "time": {

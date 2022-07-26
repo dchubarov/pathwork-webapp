@@ -14,24 +14,16 @@ export function installMockServer(): Server {
             this.get("/auth/login", (_, request) => {
                 const user = request.queryParams?.u;
                 return user === "dime" || user === "dime@twowls.org" ? {
-                    session: "ootuong2Ait0oshi",
-                    expires: moment.utc().unix() + 3600,
-                    user: {
-                        login: "dime",
-                        fullName: "Dmitry Chubarov",
-                    },
+                    ...require("./mockdata/auth.login.dime.json"),
+                    expires: moment.utc().unix() + 3600
                 } : new Response(401);
             }, {timing: 500});
 
             this.get("/auth/join", (_, request) => {
                 const session = request.queryParams?.s;
                 return session === "ootuong2Ait0oshi" ? {
-                    session: session,
-                    expires: moment.utc().unix() + 3600,
-                    user: {
-                        login: "dime",
-                        fullName: "Dmitry Chubarov",
-                    }
+                    ...require("./mockdata/auth.login.dime.json"),
+                    expires: moment.utc().unix() + 3600
                 } : new Response(401);
             }, {timing: 100});
 
