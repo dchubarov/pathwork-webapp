@@ -5,6 +5,7 @@ const axiosBaseConfig: AxiosRequestConfig = {
 }
 
 function executeAxiosRequest<T>(config: AxiosRequestConfig): Promise<T> {
+    // console.log(`API request: ${config.method} ${config.url} ${JSON.stringify(config.params)}`)
     return axios.request<T>(config)
         .then(response => response.data);
 }

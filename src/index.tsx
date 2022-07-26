@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-
+import {CookiesProvider} from "react-cookie";
 import reportWebVitals from './reportWebVitals';
+
 import {installMockServer} from "@api/mock";
 import Router from "@containers/Router";
 
@@ -26,7 +27,9 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <React.Suspense fallback="Application is loading...">
-            <Router/>
+            <CookiesProvider>
+                <Router/>
+            </CookiesProvider>
         </React.Suspense>
     </React.StrictMode>
 );

@@ -15,6 +15,11 @@ const AuthApi = {
             p: password,
         }),
 
+    join: (session: string) => Api
+        .get<LoginResponse>("/auth/join", {
+            s: session,
+        }),
+
     /**
      * Invokes logout API method.
      */

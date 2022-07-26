@@ -1,14 +1,17 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {PaletteMode, useMediaQuery} from "@mui/material";
 import {Addon, IApplicationContext} from "@utils/context";
 import {initPreferences, mergePreferences, PreferenceInit} from "@utils/prefs";
 import AuthApi from "@api/auth";
+import {useCookies} from "react-cookie";
+import moment from "moment";
 
 const developerPrefsInit: any = process.env.NODE_ENV !== "development" ? {} : {
     enableDebugFeatures: () => false,
 };
 
 export function useApplicationContextInit(): IApplicationContext {
+    const [cookies, setCookie, removeCookie] = useCookies(["session"]);
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
     const [context, setContext] = useState<IApplicationContext>({
         preferences: initPreferences({
@@ -40,21 +43,36 @@ export function useApplicationContextInit(): IApplicationContext {
 
         login: (user, password) => {
             setContext(prev => {
-                if (prev.auth.session) {
-                    AuthApi.logout(prev.auth.session).then();
-                }
-
                 if (user && password) {
+                    if (prev.auth.session) {
+                        AuthApi.logout(prev.auth.session).then();
+                    }
+
                     AuthApi.login(user, password).then(response => {
+                        setCookie("session", response.session, {
+                            expires: moment.unix(response.expires).toDate(),
+                            path: "/"
+                        });
+
                         setContext(prev1 => ({
                             ...prev1, auth: {
                                 ...response,
-                                status: "authenticated",
+                                status: "authenticated"
                             }
                         }));
                     });
                 } else {
-                    // TODO join session
+                    if (!cookies.session || cookies.session === prev.auth.session)
+                        return prev;
+
+                    AuthApi.join(cookies.session).then(response => {
+                        setContext(prev1 => ({
+                            ...prev1, auth: {
+                                ...response,
+                                status: "authenticated"
+                            }
+                        }));
+                    });
                 }
 
                 return {...prev, auth: {status: "in-progress"}};
@@ -64,6 +82,7 @@ export function useApplicationContextInit(): IApplicationContext {
         logout: () => {
             setContext(prev => {
                 if (prev.auth.session) {
+                    removeCookie("session");
                     AuthApi.logout(prev.auth.session).then();
                     return {...prev, auth: {}};
                 }
@@ -104,6 +123,11 @@ export function useApplicationContextInit(): IApplicationContext {
             setContext(prev => ({...prev, view: {}}));
         }
     });
+
+    useEffect(() => {
+        if (cookies.session && context.auth.status === undefined)
+            context.login();
+    }, [context, cookies.session]);
 
     return context;
 }

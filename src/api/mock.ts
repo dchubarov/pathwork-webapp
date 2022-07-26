@@ -23,6 +23,17 @@ export function installMockServer(): Server {
                 }
             }, {timing: 800});
 
+            this.get("/auth/join", (_, request) => {
+                return {
+                    session: request.queryParams?.s,
+                    expires: moment.utc().unix() + 3600,
+                    user: {
+                        login: "dime",
+                        fullName: "Dmitry Chubarov",
+                    }
+                }
+            }, {timing: 300});
+
             this.get("/auth/logout", () => {
                 return {} as LogoutResponse;
             }, {timing: 200});
