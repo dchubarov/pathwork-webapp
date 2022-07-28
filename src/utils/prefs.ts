@@ -20,8 +20,9 @@ export class PreferenceInit<T> {
  * Hook returning a preference value along with function allowing change of the value.
  *
  * @param key preference key
+ * @param def fallback value
  */
-export function usePreference<T = any>(key: string): [T, PreferenceUpdateFunc<T>] {
+export function usePreference<T = any>(key: string, def?: T): [T, PreferenceUpdateFunc<T>] {
     const {preferences, updatePreferences} = useContext(ApplicationContext);
     const update: PreferenceUpdateFunc<T> = (v) => {
         let initRoot: any = {}, init = initRoot;
@@ -36,7 +37,11 @@ export function usePreference<T = any>(key: string): [T, PreferenceUpdateFunc<T>
         updatePreferences(initRoot);
     };
 
-    return [findPreferenceValue(key, preferences), update];
+    const v: T | undefined = findPreferenceValue(key, preferences);
+    if (v === undefined && def === undefined)
+        throw new Error(`Preference value not found for ${key} and no fallback value provided`);
+
+    return [v !== undefined ? v : def!, update];
 }
 
 /**
@@ -52,7 +57,7 @@ export function useReadonlyPreferences(keyPrefix: string) {
     return child;
 }
 
-export function findPreferenceValue<T>(key: string, prefs: any): T {
+export function findPreferenceValue<T>(key: string, prefs: any): T | undefined {
     if (!prefs || typeof prefs !== "object" || Array.isArray(prefs))
         throw new Error("prefs must be a regular object");
 
@@ -67,8 +72,7 @@ export function findPreferenceValue<T>(key: string, prefs: any): T {
         }
     }
 
-    if (leaf === null || parent == null) throw new Error("Preference key contains invalid path: " + key);
-    return leaf;
+    return (leaf === null || parent === null) ? undefined : leaf;
 }
 
 export function mergePreferences(init: any, prefs?: any): [any, boolean] {

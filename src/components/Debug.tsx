@@ -1,11 +1,11 @@
 import React from "react";
 import {Box, Typography} from "@mui/material";
 import {PestControl as DebugIcon} from "@mui/icons-material";
-import {useReadonlyPreferences} from "@utils/prefs";
+import {usePreference} from "@utils/prefs";
 
 const Debug: React.FC<{ children?: React.ReactNode }> = ({children}) => {
-    const developerPrefs = useReadonlyPreferences("developer");
-    if (process.env.NODE_ENV !== "development" || developerPrefs.enableDebugFeatures !== true)
+    const [enabled] = usePreference("developer.enableDebugFeatures", false);
+    if (process.env.NODE_ENV !== "development" || !enabled)
         return null;
 
     return (
