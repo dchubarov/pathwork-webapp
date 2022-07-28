@@ -1,18 +1,18 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {useTranslation} from "react-i18next";
 import {Outlet, useLocation} from "react-router-dom";
 import {AppBar, Box, createTheme, CssBaseline, Link, ThemeProvider, Toolbar, Typography} from "@mui/material";
 
 import {ApplicationContext} from "@utils/context";
-import getDesignTokens from "@utils/theme";
 import {useApplicationContextInit} from "../context";
+import getDesignTokens from "@utils/theme";
 import LinkBehavior from "@components/LinkBehavior";
-import AppbarLogo from "./AppbarLogo";
 import AppbarSearchField from "./AppbarSearchField";
 import AppbarLanguageButton from "./AppbarLanguageButton";
 import AppbarThemeButton from "./AppbarThemeButton";
 import AppbarDebugButton from "./AppbarDebugButton";
 import AppbarLoginButton from "./AppbarLoginButton";
+import AppbarLogo from "./AppbarLogo";
 import Sidebar from "./Sidebar";
 
 const App: React.FC = () => {
@@ -41,11 +41,6 @@ const App: React.FC = () => {
     const theme = useMemo(() => createTheme(
             getDesignTokens(context.preferences.theme)),
         [context.preferences.theme]);
-
-    useEffect(() => {
-        if (context.preferences.language !== i18n.language)
-            i18n.changeLanguage(context.preferences.language).then();
-    }, [i18n, context.preferences.language]);
 
     return (
         <ApplicationContext.Provider value={context}>

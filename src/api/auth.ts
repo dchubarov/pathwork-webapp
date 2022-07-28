@@ -15,6 +15,11 @@ const AuthApi = {
             p: password,
         }),
 
+    /**
+     * Join existing session.
+     *
+     * @param session session id
+     */
     join: (session: string) => Api
         .get<LoginResponse>("/auth/join", {
             s: session,

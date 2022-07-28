@@ -5,6 +5,7 @@ import {initPreferences, mergePreferences, PreferenceInit} from "@utils/prefs";
 import AuthApi from "@api/auth";
 import {useCookies} from "react-cookie";
 import moment from "moment";
+import {useTranslation} from "react-i18next";
 
 const developerPrefsInit: any = process.env.NODE_ENV !== "development" ? {} : {
     enableDebugFeatures: () => false,
@@ -13,9 +14,11 @@ const developerPrefsInit: any = process.env.NODE_ENV !== "development" ? {} : {
 export function useApplicationContextInit(): IApplicationContext {
     const [cookies, setCookie, removeCookie] = useCookies(["session"]);
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const {i18n} = useTranslation();
+
     const [context, setContext] = useState<IApplicationContext>({
         preferences: initPreferences({
-            language: new PreferenceInit("en"),
+            language: new PreferenceInit(i18n.language),
             theme: new PreferenceInit<PaletteMode>(prefersDarkMode ? "dark" : "light"),
             records: {
                 browser: {
@@ -127,7 +130,10 @@ export function useApplicationContextInit(): IApplicationContext {
     useEffect(() => {
         if (cookies.session && context.auth.status === undefined)
             context.login();
-    }, [context, cookies.session]);
+
+        if (context.preferences.language !== i18n.language)
+            i18n.changeLanguage(context.preferences.language).then();
+    }, [i18n, context, cookies.session]);
 
     return context;
 }
