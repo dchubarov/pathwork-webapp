@@ -39,7 +39,7 @@ const MiniProfile: React.FC<Props> = ({onNavigate, onLogout}) => {
                     </Typography>}
 
                     <Link component={LinkBehavior}
-                          href={`${process.env.REACT_APP_UI_ROOT}/users/${auth.user?.login}`}
+                          href={`${process.env.REACT_APP_UI_ROOT}/account/my`}
                           onClick={onNavigate}
                           display="block"
                           variant="body2">
