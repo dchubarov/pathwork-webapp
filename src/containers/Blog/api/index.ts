@@ -1,9 +1,18 @@
-import Api from "@api/base";
+import {GenericApi} from "@api/base";
 import {BlogPageDto} from "../model";
 
-const BlogApi = {
+/**
+ * Blog API methods.
+ */
+class BlogApi extends GenericApi {
 
-    getRecentEntries: (page?: number) => Api.get<BlogPageDto>("/blog/recent", {p: page || 1}),
+    /**
+     * Loads blog posts chronologically.
+     * @param page page number
+     */
+    async recentEntries(page?: number) {
+        return this.getForObject<BlogPageDto>("/blog/recent", {p: page || 1})
+    }
 }
 
 export default BlogApi;

@@ -1,22 +1,28 @@
 import axios, {AxiosRequestConfig} from "axios";
 
-const axiosBaseConfig: AxiosRequestConfig = {
-    baseURL: process.env.REACT_APP_API_ROOT,
-}
+export class GenericApi {
+    private readonly config: AxiosRequestConfig;
 
-function executeAxiosRequest<T>(config: AxiosRequestConfig): Promise<T> {
-    // console.log(`API request: ${config.method} ${config.url} ${JSON.stringify(config.params)}`)
-    return axios.request<T>(config)
-        .then(response => response.data);
-}
+    constructor(config?: AxiosRequestConfig) {
+        this.config = {
+            baseURL: (process.env.REACT_APP_API_ROOT || ""),
+            timeout: 1000,
+            ...config
+        }
+    }
 
-const Api = {
-    get: <T>(url: string, requestParams?: any) => executeAxiosRequest<T>({
-        ...axiosBaseConfig,
-        method: "GET",
-        url: url,
-        params: requestParams,
-    }),
-}
+    protected async getForObject<T = any>(url: string, params?: any, headers?: Record<string, string>) {
+        const response = await axios.request<T>({
+            ...this.config,
+            url: url,
+            params: params,
+            headers: {
+                ...this.config.headers,
+                ...headers,
+                Accept: "application/json"
+            }
+        });
 
-export default Api;
+        return response.data;
+    }
+}

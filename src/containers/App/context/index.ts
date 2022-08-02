@@ -2,14 +2,10 @@ import {useEffect, useState} from "react";
 import {PaletteMode, useMediaQuery} from "@mui/material";
 import {Addon, IApplicationContext} from "@utils/context";
 import {initPreferences, mergePreferences, PreferenceInit} from "@utils/prefs";
-import AuthApi from "@api/auth";
+import authApi from "@api/auth";
 import {useCookies} from "react-cookie";
 import moment from "moment";
 import {useTranslation} from "react-i18next";
-
-const developerPrefsInit: any = process.env.NODE_ENV !== "development" ? {} : {
-    enableDebugFeatures: () => false,
-};
 
 export function useApplicationContextInit(): IApplicationContext {
     const [cookies, setCookie, removeCookie] = useCookies(["session"]);
@@ -30,7 +26,9 @@ export function useApplicationContextInit(): IApplicationContext {
                     }
                 }
             },
-            developer: developerPrefsInit
+            developer: process.env.NODE_ENV !== "development" ? undefined : {
+                enableDebugFeatures: () => false,
+            }
         }),
 
         view: {},
@@ -48,10 +46,10 @@ export function useApplicationContextInit(): IApplicationContext {
             setContext(prev => {
                 if (user && password) {
                     if (prev.auth.session) {
-                        AuthApi.logout(prev.auth.session).then();
+                        authApi.logout(prev.auth.session).then();
                     }
 
-                    AuthApi.login(user, password).then(response => {
+                    authApi.login(user, password).then(response => {
                         setCookie("session", response.session, {
                             expires: moment.unix(response.expires).toDate(),
                             path: "/"
@@ -68,7 +66,7 @@ export function useApplicationContextInit(): IApplicationContext {
                     if (!cookies.session || cookies.session === prev.auth.session)
                         return prev;
 
-                    AuthApi.join(cookies.session).then(response => {
+                    authApi.join(cookies.session).then(response => {
                         setContext(prev1 => ({
                             ...prev1, auth: {
                                 ...response,
@@ -86,7 +84,7 @@ export function useApplicationContextInit(): IApplicationContext {
             setContext(prev => {
                 if (prev.auth.session) {
                     removeCookie("session");
-                    AuthApi.logout(prev.auth.session).then();
+                    authApi.logout(prev.auth.session).then();
                     return {...prev, auth: {}};
                 }
 

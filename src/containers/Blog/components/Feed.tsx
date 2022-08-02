@@ -5,6 +5,7 @@ import {Box, Button, Link, Slide, Stack, Typography} from "@mui/material";
 import {ChatBubbleOutline as CommentsIcon, Warning as WarningIcon} from "@mui/icons-material";
 import {ApplicationContext} from "@utils/context";
 import {relativeTimeT} from "@utils/datetime";
+import {useApiClient} from "@api/hook";
 import FeedActions from "./FeedActions";
 import SkeletalContent from "@components/SkeletalContent";
 import MarkdownPreview from "@components/MarkdownPreview";
@@ -24,6 +25,7 @@ const Feed: React.FC = () => {
     const [state, dispatch] = useReducer(FeedState.reducer, FeedState.initial);
     const [scrolledDown, setScrolledDown] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
+    const blogApi = useApiClient(BlogApi);
     const {t} = useTranslation();
 
     const handleSetPage = (page: number) => setSearchParams({...queryToSearchParams(state.query), p: page});
@@ -41,7 +43,7 @@ const Feed: React.FC = () => {
         switch (state.mode) {
             case "reload":
                 configureAddon(<FeedActions loading/>);
-                BlogApi.getRecentEntries(state.query.page)
+                blogApi.recentEntries(state.query.page)
                     .then(response => dispatch({type: "page-loaded", data: response}))
                     .catch(() => dispatch({type: "page-error"}));
 
@@ -53,7 +55,7 @@ const Feed: React.FC = () => {
                 configureAddon(<TagListSidecar tags={state.data?.availableTags || []}/>, 2, "Tags");
                 break;
         }
-    }, [state.data, state.mode, state.query, configureAddon, t]);
+    }, [state.query, state.mode, state.data, blogApi, configureAddon, t]);
 
     return (
         <React.Fragment>

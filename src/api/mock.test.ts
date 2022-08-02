@@ -1,6 +1,7 @@
 import {Server} from "miragejs/server";
 import {installMockServer} from "./mock";
-import axios from "axios";
+import healthApi from "./health";
+import authApi from "./auth";
 
 let _mockServer: Server;
 
@@ -13,11 +14,13 @@ afterEach(() => {
 });
 
 test("mock server is responding", async () => {
-    await axios.get(process.env.REACT_APP_API_ROOT + "/health")
-        .then(response => expect(response.data).toEqual({status: "OK"}));
+    const result = await healthApi.checkHealth();
+    expect(result).toBe(true);
 });
 
 test("mock server authentication", async () => {
-    await axios.get(process.env.REACT_APP_API_ROOT + "/auth/login?u=dime&p=123")
-        .then(response => console.log(response.data));
+    const response = await authApi.login("dime", "123");
+    expect(response.user.login).toBe("dime");
+    // await axios.get(process.env.REACT_APP_API_ROOT + "/auth/login?u=dime&p=123")
+    //     .then(response => console.log(response.data));
 });

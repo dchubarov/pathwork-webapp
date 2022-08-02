@@ -1,7 +1,7 @@
-import Api from "./base";
+import {GenericApi} from "./base";
 import {LoginResponse, LogoutResponse} from "@model/auth";
 
-const AuthApi = {
+class AuthApi extends GenericApi {
 
     /**
      * Invokes user login API method.
@@ -9,29 +9,27 @@ const AuthApi = {
      * @param user user name
      * @param password password
      */
-    login: (user: string, password: string) => Api
-        .get<LoginResponse>("/auth/login", {
-            u: user,
-            p: password,
-        }),
+    async login(user: string, password: string) {
+        const credentials = btoa(`${user}:${password}`);
+        return this.getForObject<LoginResponse>("/auth/login", undefined,
+            {Authorization: `Basic ${credentials}`});
+    }
 
     /**
      * Join existing session.
      *
      * @param session session id
      */
-    join: (session: string) => Api
-        .get<LoginResponse>("/auth/join", {
-            s: session,
-        }),
+    async join(session: string) {
+        return this.getForObject<LoginResponse>("/auth/join", {s: session});
+    }
 
     /**
      * Invokes logout API method.
      */
-    logout: (session: string) => Api
-        .get<LogoutResponse>("/auth/logout", {
-            s: session
-        }),
+    async logout(session: string) {
+        return this.getForObject<LogoutResponse>("/auth/logout", {s: session});
+    }
 }
 
-export default AuthApi;
+export default new AuthApi();

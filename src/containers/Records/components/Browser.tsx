@@ -1,12 +1,13 @@
 import React, {useContext, useEffect, useState} from "react";
 
+import {useReadonlyPreferences} from "@utils/prefs";
+import {useApiClient} from "@api/hook";
 import {ApplicationContext} from "@utils/context";
 import Navigator from "@components/Navigator";
 import {Slide} from "@mui/material";
 import OnScreen from "@components/OnScreen";
-import {useReadonlyPreferences} from "@utils/prefs";
-import Debug from "@components/Debug";
 
+import Debug from "@components/Debug";
 import RecordsApi from "../api";
 import {CardResponseDto} from "../model";
 import BrowserNavigatorItems from "./BrowserNavigatorItems";
@@ -24,6 +25,7 @@ const Browser: React.FC = () => {
     const preferences = useReadonlyPreferences("records.browser");
     const [data, setData] = useState<CardResponseDto | null>(null);
     const [scrolledDown, setScrolledDown] = useState(false);
+    const recordsApi = useApiClient(RecordsApi);
 
     useEffect(() => {
         configureAddon(<BrowserActions/>);
@@ -33,10 +35,10 @@ const Browser: React.FC = () => {
     }, [configureAddon, configureView, ejectView]);
 
     useEffect(() => {
-        RecordsApi.getCards()
+        recordsApi.allCards()
             .then(response => setData(response))
             .catch(() => setData(null));
-    }, []);
+    }, [recordsApi]);
 
     const cards = data?.cards && data.cards.length > 0 ? data.cards : undefined;
     return (

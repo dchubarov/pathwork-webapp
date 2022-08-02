@@ -1,10 +1,17 @@
-import Api from "@api/base";
+import {GenericApi} from "@api/base";
 import {CardResponseDto} from "../model";
 
-const RecordsApi = {
+class RecordsApi extends GenericApi {
 
-    getCards: (page?: number) => Api.get<CardResponseDto>("/records/cards", {p: page || 1}),
-
+    async allCards(page?: number) {
+        return this.getForObject<CardResponseDto>("/records/cards", {p: page || 1});
+    }
 }
+
+// const RecordsApi = {
+//
+//     getCards: (page?: number) => Api.get<CardResponseDto>("/records/cards", {p: page || 1}),
+//
+// }
 
 export default RecordsApi;

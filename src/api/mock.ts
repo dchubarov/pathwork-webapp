@@ -12,11 +12,17 @@ export function installMockServer(): Server {
                 () => ({status: "OK"}));
 
             this.get("/auth/login", (_, request) => {
-                const user = request.queryParams?.u;
-                return user === "dime" || user === "dime@twowls.org" ? {
-                    ...require("./mockdata/auth.login.dime.json"),
-                    expires: moment.utc().unix() + 3600
-                } : new Response(401);
+                const a = request.requestHeaders["Authorization"];
+                if (a.startsWith("Basic")) {
+                    const c = atob(a.substring(6)).split(":");
+                    if (c.length > 1 && (c[0] === "dime" || c[0] === "dime@twowls.org"))
+                        return {
+                            ...require("./mockdata/auth.login.dime.json"),
+                            expires: moment.utc().unix() + 86400
+                        }
+                }
+
+                return new Response(401);
             }, {timing: 500});
 
             this.get("/auth/join", (_, request) => {
