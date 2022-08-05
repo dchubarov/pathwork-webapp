@@ -4,8 +4,13 @@ export class GenericApi {
     private readonly config: AxiosRequestConfig;
 
     constructor(config?: AxiosRequestConfig) {
+        let url = (process.env.NODE_ENV !== "development" || process.env.REACT_APP_API_MOCKING !== "true") ?
+            process.env.REACT_APP_API_SERVER || "" : "";
+
+        url += (process.env.REACT_APP_API_ROOT || "");
+
         this.config = {
-            baseURL: (process.env.REACT_APP_API_ROOT || ""),
+            baseURL: url,
             timeout: 1000,
             ...config
         }
