@@ -23,7 +23,7 @@ const Calendar: React.FC = () => {
                 console.warn(`Expected year in range [${MIN_YEAR}..${MAX_YEAR}], got invalid value '${year}', will redirect to /${presentYear}`);
             }
 
-            navigate(`../${presentYear}`, {replace: true});
+            navigate(`${presentYear}`, {replace: true});
             return;
         }
 

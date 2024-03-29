@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: patchwork-webapp
+  labels:
+    app: patchwork-webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patchwork-webapp
+  template:
+    metadata:
+      labels:
+        app: patchwork-webapp
+    spec:
+      containers:
+        - name: nginx
+          image: patchwork-webapp:snapshot
+          ports:
+            - containerPort: 80
+#          env:
+#            - name: PUBLIC_URL
+#              value: /demo/patchwork-webapp
+#            - name: REACT_APP_UI_ROOT
+#              value: /demo/patchwork-webapp
+#            - name: REACT_APP_API_ROOT
+#              value: /demo/patchwork-webapp/api
+#            - name: REACT_APP_UPLOADS_ROOT
+#              value: /demo/patchwork-webapp/uploads
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: patchwork-webapp
+  labels:
+    app: patchwork-webapp
+spec:
+  selector:
+    app: patchwork-webapp
+  type: ClusterIP
+  ports:
+    - port: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: patchwork-webapp
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`patchwork-demo.kube.local`)
+      kind: Rule
+      services:
+        - kind: Service
+          name: patchwork-webapp
+          port: 80

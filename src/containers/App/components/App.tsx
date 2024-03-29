@@ -50,7 +50,7 @@ const App: React.FC = () => {
                 <Box sx={{display: "flex"}}>
                     <AppBar position="fixed" sx={{zIndex: theme => theme.zIndex.drawer + 1}}>
                         <Toolbar>
-                            <Link component={LinkBehavior} href={process.env.REACT_APP_UI_ROOT || "/"}>
+                            <Link component={LinkBehavior} href="/">
                                 <AppbarLogo variant="rounded" src="/logo128.png" alt="logo"/>
                             </Link>
 
